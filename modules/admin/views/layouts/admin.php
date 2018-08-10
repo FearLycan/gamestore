@@ -9,8 +9,8 @@ use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AdminAsset;
 
-$nails = [
-    'category', 'tag', 'item'
+$game = [
+    'platform', 'game', 'region'
 ];
 
 $system = [
@@ -169,41 +169,28 @@ AdminAsset::register($this);
                 <li class="<?= Yii::$app->controller->id == 'default' ? 'active' : 'no' ?>">
                     <a href="<?= Url::to(['/admin']) ?>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
-                <!--<li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#nails">
-                        <i class="fa fa-hand-paper-o" aria-hidden="true"></i> Paznokcie <i
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#game">
+                        <i class="fa fa-gamepad" aria-hidden="true"></i> Gry <i
                                 class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="nails"  class="<?/*= in_array(Yii::$app->controller->id, $nails) ? 'collapse in' : 'collapse' */?>">
-                        <li class="<?/*= Yii::$app->controller->id == 'category' ? 'active' : 'no' */?>">
-                            <a href="<?/*= Url::to(['/admin/category']) */?>">
-                                <i class="fa fa-folder" aria-hidden="true"></i> Kategorie
+                    <ul id="game"  class="<?= in_array(Yii::$app->controller->id, $game) ? 'collapse in' : 'collapse' ?>">
+                        <li class="<?= Yii::$app->controller->id == 'game' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/game']) ?>">
+                                <i class="fa fa-list" aria-hidden="true"></i> Lista gier
                             </a>
                         </li>
-                        <li class="<?/*= Yii::$app->controller->id == 'item' ? 'active' : 'no' */?>">
-                            <a href="<?/*= Url::to(['/admin/item']) */?>">
-                                <i class="fa fa-list" aria-hidden="true"></i> Lista
+                        <li class="<?= Yii::$app->controller->id == 'platform' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/platform']) ?>">
+                                <i class="fa fa-th-large" aria-hidden="true"></i> Platformy
                             </a>
                         </li>
-                        <li class="<?/*= Yii::$app->controller->id == 'tag' ? 'active' : 'no' */?>">
-                            <a href="<?/*= Url::to(['/admin/tag']) */?>">
-                                <i class="fa fa-tags" aria-hidden="true"></i> Tagi
+                        <li class="<?= Yii::$app->controller->id == 'region' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/region']) ?>">
+                                <i class="fa fa-globe" aria-hidden="true"></i> Regiony
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#system">
-                        <i class="fa fa-cogs" aria-hidden="true"></i> System <i
-                                class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="system"
-                        class="<?/*= in_array(Yii::$app->controller->id, $system) ? 'collapse in' : 'collapse' */?>">
-                        <li class="<?/*= Yii::$app->controller->id == 'visitor' ? 'active' : 'no' */?>">
-                            <a href="<?/*= Url::to(['/admin/visitor']) */?>">
-                                <i class="fa fa-user-secret" aria-hidden="true"></i> Odwiedzający
-                            </a>
-                        </li>
-                    </ul>
-                </li>-->
             </ul>
         </div>
         <!-- /.navbar-collapse -->
