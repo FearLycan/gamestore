@@ -1,16 +1,16 @@
 <?php
 
-use app\modules\admin\models\Region;
+use app\modules\admin\models\Platform;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Region */
+/* @var $model app\modules\admin\models\Platform */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="region-form">
+<div class="platform-form">
 
     <div class="row">
         <?php $form = ActiveForm::begin(); ?>
@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
         <div class="col-md-2">
             <?= $form->field($model, 'status')->widget(Select2::classname(), [
-                'data' => Region::getStatusNames(),
+                'data' => Platform::getStatusNames(),
                 'options' => ['placeholder' => 'Status'],
                 'pluginOptions' => [
                     'allowClear' => true

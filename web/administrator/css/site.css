@@ -64,3 +64,11 @@ a.desc:after {
     color: #fff;
     background-color: #080808;
 }
+
+table.detail-view th {
+    width: 15%;
+}
+
+table.detail-view td {
+    width: 85%;
+}

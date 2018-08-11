@@ -17,6 +17,9 @@ use yii\db\ActiveRecord;
  */
 class Platform extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * @param bool $insert
      * @return array
@@ -41,6 +44,25 @@ class Platform extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%platform}}';
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getStatusNames()
+    {
+        return [
+            static::STATUS_ACTIVE => 'Aktywny',
+            static::STATUS_INACTIVE => 'Nieaktywny',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return User::getStatusNames()[$this->status];
     }
 
     /**
