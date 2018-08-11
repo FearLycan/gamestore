@@ -25,10 +25,10 @@ class m180808_093153_create_game_table extends Migration
             'thumbnail' => $this->string(),
             'smallImage' => $this->string(),
             'description' => $this->text(),
-            'region' => $this->smallInteger()->notNull(),
+            'region_id' => $this->integer(),
             'developer' => $this->string()->null(),
             'publisher' => $this->string()->null(),
-            'platform' => $this->smallInteger()->notNull(),
+            'platform_id' => $this->integer(),
             'restrictions' => $this->string()->null(),
             'requirements' => $this->text()->null(),
             'videos' => $this->text()->null(),
@@ -43,7 +43,6 @@ class m180808_093153_create_game_table extends Migration
 
         $this->createIndex('{{%game_status_index}}', '{{%game}}', 'status');
         $this->createIndex('{{%game_type_index}}', '{{%game}}', 'type');
-        $this->createIndex('{{%game_region_index}}', '{{%game}}', 'region');
         $this->createIndex('{{%game_min_price_index}}', '{{%game}}', 'min_price');
         $this->createIndex('{{%game_price_index}}', '{{%game}}', 'price');
         $this->createIndex('{{%game_discount_index}}', '{{%game}}', 'discount');

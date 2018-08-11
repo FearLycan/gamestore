@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="game-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -40,10 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'thumbnail',
             'smallImage',
             'description:ntext',
-            'region',
+            'region_id',
             'developer',
             'publisher',
-            'platform',
+            'platform_id',
             'restrictions',
             'requirements:ntext',
             'videos:ntext',

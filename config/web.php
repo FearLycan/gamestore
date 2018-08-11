@@ -5,6 +5,8 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'timeZone' => 'Europe/Warsaw',
+    'language' => 'pl',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [

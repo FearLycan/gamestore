@@ -3,9 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%game}}".
@@ -22,8 +19,10 @@ use yii\db\ActiveRecord;
  * @property string $thumbnail
  * @property string $smallImage
  * @property string $description
+ * @property int $region_id
  * @property string $developer
  * @property string $publisher
+ * @property int $platform_id
  * @property string $restrictions
  * @property string $requirements
  * @property string $videos
@@ -31,12 +30,11 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Region $region
  * @property Platform $platform
+ * @property Region $region
  */
 class Game extends \yii\db\ActiveRecord
 {
-
     //statusy
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -44,24 +42,6 @@ class Game extends \yii\db\ActiveRecord
     //typy
     const TYPE_KEY = 1; //klucz
     const TYPE_OTHER = 0;
-
-    /**
-     * @param bool $insert
-     * @return array
-     */
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                'value' => date("Y-m-d H:i:s"),
-            ],
-        ];
-    }
 
     /**
      * {@inheritdoc}
@@ -77,12 +57,14 @@ class Game extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['g2a_id', 'type', 'qty', 'discount', 'region', 'platform', 'status'], 'integer'],
-            [['name', 'type', 'slug', 'min_price', 'price', 'region', 'platform'], 'required'],
+            [['g2a_id', 'type', 'qty', 'discount', 'region_id', 'platform_id', 'status'], 'integer'],
+            [['name', 'type', 'slug', 'min_price', 'price'], 'required'],
             [['min_price', 'price'], 'number'],
-            [['description', 'videos', 'requirements'], 'string'],
+            [['description', 'requirements', 'videos'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'slug', 'thumbnail', 'smallImage', 'developer', 'publisher', 'restrictions'], 'string', 'max' => 255],
+            [['platform_id'], 'exist', 'skipOnError' => true, 'targetClass' => Platform::className(), 'targetAttribute' => ['platform_id' => 'id']],
+            [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['region_id' => 'id']],
         ];
     }
 
@@ -104,10 +86,10 @@ class Game extends \yii\db\ActiveRecord
             'thumbnail' => 'Thumbnail',
             'smallImage' => 'Small Image',
             'description' => 'Description',
-            'region' => 'Region',
+            'region_id' => 'Region ID',
             'developer' => 'Developer',
             'publisher' => 'Publisher',
-            'platform' => 'Platform',
+            'platform_id' => 'Platform ID',
             'restrictions' => 'Restrictions',
             'requirements' => 'Requirements',
             'videos' => 'Videos',
@@ -118,37 +100,18 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string[]
-     */
-    public static function getTypesNames()
-    {
-        return [
-            static::TYPE_KEY => 'Aktywny',
-            static::STATUS_INACTIVE => 'Nieaktywny',
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatusName()
-    {
-        return User::getStatusNames()[$this->status];
-    }
-
-    /**
-     * @return ActiveQuery
-     */
-    public function getRegion()
-    {
-        return $this->hasOne(Region::className(), ['id' => 'region']);
-    }
-
-    /**
-     * @return ActiveQuery
+     * @return \yii\db\ActiveQuery
      */
     public function getPlatform()
     {
-        return $this->hasOne(Platform::className(), ['id' => 'platform']);
+        return $this->hasOne(Platform::className(), ['id' => 'platform_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegion()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 }

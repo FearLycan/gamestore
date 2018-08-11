@@ -55,9 +55,6 @@ class GameController extends Controller
                     $game->g2a_id = $g2a['id'];
                     $game->name = $g2a['name'];
 
-                    //echo $g2a['type'] . "\n";
-                    die(var_dump($g2a));
-
                     if ($g2a['type'] === 'key') {
                         $game->type = Game::TYPE_KEY;
                     } else {
@@ -71,10 +68,10 @@ class GameController extends Controller
                     $game->thumbnail = $g2a['thumbnail'];
                     $game->smallImage = $g2a['smallImage'];
                     $game->description = $g2a['description'];
-                    $game->region = Region::check($g2a['region']);
+                    $game->region_id = Region::check($g2a['region']);
                     $game->developer = $g2a['developer'];
                     $game->publisher = $g2a['publisher'];
-                    $game->platform = Platform::check($g2a['platform']);
+                    $game->platform_id = Platform::check($g2a['platform']);
                     $game->restrictions = json_encode($g2a['restrictions']);
                     $game->requirements = json_encode($g2a['requirements']);
                     $game->videos = json_encode($g2a['videos']);

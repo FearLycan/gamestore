@@ -69,8 +69,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'platform',
                                 'format' => 'raw',
                                 'value' => function ($data) {
+                                    /* @var $data \app\models\Game */
+                                    return $data->platform->name;
+                                },
+                            ],
+                            [
+                                'attribute' => 'region',
+                                'format' => 'raw',
+                                'value' => function ($data) {
                                     /* @var \app\models\Game $data */
-                                    return $data->platform;
+                                    return $data->region->name;
                                 },
                             ],
                             [
@@ -81,7 +89,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $data->type;
                                 },
                             ],
-                            'region',
                             //'qty',
 
                             //'price',
