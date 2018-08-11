@@ -1,5 +1,6 @@
 <?php
 
+use app\modules\admin\models\Region;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
@@ -32,14 +33,36 @@ $this->params['breadcrumbs'][] = $this->title;
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
                         'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
-
-                            'id',
-                            'name',
-                            'status',
-                            'created_at',
-                            'updated_at',
-
+                            ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 60px;']],
+                            [
+                                'attribute' => 'name',
+                                'format' => 'raw',
+                                'value' => function ($data) {
+                                    /* @var Platform $data */
+                                    return Html::a($data->name, ['view', 'id' => $data->id]) . '<small class="text-muted">(ID: ' . $data->id . ')</small>';
+                                },
+                            ],
+                            [
+                                'label' => 'Status',
+                                'attribute' => 'status',
+                                'contentOptions' => ['style' => 'width: 150px'],
+                                'format' => 'raw',
+                                'filter' => Region::getStatusNames(),
+                                'value' => function ($data) {
+                                    /* @var Platform $data */
+                                    return $data->getStatusName();
+                                },
+                            ],
+                            [
+                                'attribute' => 'created_at',
+                                'format' => 'raw',
+                                'contentOptions' => ['style' => 'width: 200px;'],
+                            ],
+                            [
+                                'attribute' => 'updated_at',
+                                'format' => 'raw',
+                                'contentOptions' => ['style' => 'width: 200px;'],
+                            ],
                             [
                                 'class' => 'yii\grid\ActionColumn',
                                 'contentOptions' => ['style' => 'width: 110px'],
