@@ -3,16 +3,16 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\Game;
-use app\modules\admin\models\searches\GameSearch;
+use app\modules\admin\models\Region;
+use app\modules\admin\models\searches\RegionSearch;
 use app\modules\admin\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * GameController implements the CRUD actions for Game model.
+ * RegionController implements the CRUD actions for Region model.
  */
-class GameController extends Controller
+class RegionController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class GameController extends Controller
     }
 
     /**
-     * Lists all Game models.
+     * Lists all Region models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new GameSearch();
+        $searchModel = new RegionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class GameController extends Controller
     }
 
     /**
-     * Displays a single Game model.
+     * Displays a single Region model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class GameController extends Controller
     }
 
     /**
-     * Creates a new Game model.
+     * Creates a new Region model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Game();
+        $model = new Region();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class GameController extends Controller
     }
 
     /**
-     * Updates an existing Game model.
+     * Updates an existing Region model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class GameController extends Controller
     }
 
     /**
-     * Deletes an existing Game model.
+     * Deletes an existing Region model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class GameController extends Controller
     }
 
     /**
-     * Finds the Game model based on its primary key value.
+     * Finds the Region model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Game the loaded model
+     * @return Region the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Game::findOne($id)) !== null) {
+        if (($model = Region::findOne($id)) !== null) {
             return $model;
         }
 

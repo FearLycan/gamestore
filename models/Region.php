@@ -17,6 +17,9 @@ use yii\db\ActiveRecord;
  */
 class Region extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * @param bool $insert
      * @return array
@@ -67,6 +70,25 @@ class Region extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getStatusNames()
+    {
+        return [
+            static::STATUS_ACTIVE => 'Aktywny',
+            static::STATUS_INACTIVE => 'Nieaktywny',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return User::getStatusNames()[$this->status];
     }
 
     public static function check($name)
