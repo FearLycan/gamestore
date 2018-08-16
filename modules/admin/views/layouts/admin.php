@@ -10,7 +10,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AdminAsset;
 
 $game = [
-    'platform', 'game', 'region'
+    'platform', 'game', 'region', 'genre'
 ];
 
 $system = [
@@ -177,6 +177,11 @@ AdminAsset::register($this);
                         <li class="<?= Yii::$app->controller->id == 'game' ? 'active' : 'no' ?>">
                             <a href="<?= Url::to(['/admin/game']) ?>">
                                 <i class="fa fa-list" aria-hidden="true"></i> Lista gier
+                            </a>
+                        </li>
+                        <li class="<?= Yii::$app->controller->id == 'genre' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/genre']) ?>">
+                                <i class="fa fa-bars" aria-hidden="true"></i> Gatunki
                             </a>
                         </li>
                         <li class="<?= Yii::$app->controller->id == 'platform' ? 'active' : 'no' ?>">

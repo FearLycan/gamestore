@@ -1,19 +1,19 @@
 <?php
 
-use app\modules\admin\models\Platform;
+use app\modules\admin\models\Genre;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\searches\PlatformSearch */
+/* @var $searchModel app\modules\admin\models\searches\GenreSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Platforms';
+$this->title = 'Genres';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="platform-index">
+<div class="genre-index">
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">
-                        <i class="fa fa-th-large" aria-hidden="true"></i> Lista platform
+                        <i class="fa fa-bars" aria-hidden="true"></i> Lista gatunków
                     </h3>
                     <div class="btn-group pull-right">
                         <a href="<?= Url::to(['create']) ?>" class="btn btn-success btn-sm">Dodaj</a>
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'status',
                                 'contentOptions' => ['style' => 'width: 150px'],
                                 'format' => 'raw',
-                                'filter' => Platform::getStatusNames(),
+                                'filter' => Genre::getStatusNames(),
                                 'value' => function ($data) {
                                     /* @var Platform $data */
                                     return $data->getStatusName();
