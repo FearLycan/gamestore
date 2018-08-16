@@ -64,7 +64,7 @@ class Genre extends \yii\db\ActiveRecord
         return [
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name','slug'], 'string', 'max' => 255],
+            [['name', 'slug'], 'string', 'max' => 255],
         ];
     }
 

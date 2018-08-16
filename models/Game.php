@@ -32,6 +32,7 @@ use Yii;
  *
  * @property Platform $platform
  * @property Region $region
+ * @property Genre $genres
  */
 class Game extends \yii\db\ActiveRecord
 {
@@ -100,6 +101,25 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string[]
+     */
+    public static function getStatusNames()
+    {
+        return [
+            static::STATUS_ACTIVE => 'Aktywny',
+            static::STATUS_INACTIVE => 'Nieaktywny',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return User::getStatusNames()[$this->status];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getPlatform()
@@ -113,5 +133,31 @@ class Game extends \yii\db\ActiveRecord
     public function getRegion()
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGenres()
+    {
+        return $this->hasMany(Genre::className(), ['id' => 'genre_id'])->viaTable('{{%game_genre}}', ['game_id' => 'id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getGenresList()
+    {
+        $list = '';
+
+        foreach ($this->genres as $key => $genre) {
+            if ($key == (count($this->genres) - 1)) {
+                $list .= $genre['name'];
+            } else {
+                $list .= $genre['name'] . ', ';
+            }
+        }
+
+        return $list;
     }
 }

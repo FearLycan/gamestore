@@ -2,6 +2,9 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\models\forms\GameForm;
+use app\modules\admin\models\GameGenre;
+use app\modules\admin\models\Genre;
 use Yii;
 use app\modules\admin\models\Game;
 use app\modules\admin\models\searches\GameSearch;
@@ -52,6 +55,11 @@ class GameController extends Controller
      */
     public function actionView($id)
     {
+
+       // $model = Game::findOne($id);
+
+       // die(var_dump($model->genres));
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -85,8 +93,12 @@ class GameController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->genre = $model->genres;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            GameGenre::makeConnection($model->id, $model->genre);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -118,7 +130,7 @@ class GameController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Game::findOne($id)) !== null) {
+        if (($model = GameForm::findOne($id)) !== null) {
             return $model;
         }
 
