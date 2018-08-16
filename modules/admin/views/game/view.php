@@ -40,7 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'genres',
                                 'value' => $model->getGenresList(),
                             ],
-                            'type',
+                            [
+                                'attribute' => 'type',
+                                'format' => 'raw',
+                                'value' => $model->getTypesName(),
+                            ],
                             'slug',
                             'qty',
                             'min_price',

@@ -120,6 +120,25 @@ class Game extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string[]
+     */
+    public static function getTypesNames()
+    {
+        return [
+            static::TYPE_KEY => 'Klucz',
+            static::TYPE_OTHER => 'Inny',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypesName()
+    {
+        return self::getTypesNames()[$this->type];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getPlatform()

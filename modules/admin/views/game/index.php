@@ -1,5 +1,9 @@
 <?php
 
+use app\modules\admin\models\Game;
+use app\modules\admin\models\Platform;
+use app\modules\admin\models\Region;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -55,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     /* @var \app\models\Game $data */
                                     return $data->min_price;
                                 },
-                                'contentOptions' => ['style' => 'width: 80px; text-align: center;'],
+                                'contentOptions' => ['style' => 'width: 100px; text-align: center;'],
                             ],
                             [
                                 'attribute' => 'qty',
@@ -64,31 +68,35 @@ $this->params['breadcrumbs'][] = $this->title;
                                     /* @var \app\models\Game $data */
                                     return $data->qty;
                                 },
-                                'contentOptions' => ['style' => 'width: 80px; text-align: center;'],
+                                'contentOptions' => ['style' => 'width: 100px; text-align: center;'],
                             ],
                             [
                                 'attribute' => 'platform',
                                 'format' => 'raw',
+                                'filter' => ArrayHelper::map(Platform::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
                                 'value' => function ($data) {
                                     /* @var $data \app\models\Game */
-                                    return $data->platform->name;
+                                    return Html::a($data->platform->name, ['platform/view', 'id' => $data->platform->id]);
                                 },
                             ],
                             [
                                 'attribute' => 'region',
                                 'format' => 'raw',
+                                'filter' => ArrayHelper::map(Region::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
                                 'value' => function ($data) {
                                     /* @var \app\models\Game $data */
-                                    return $data->region->name;
+                                    return Html::a($data->region->name, ['region/view', 'id' => $data->region->id]);
                                 },
                             ],
                             [
                                 'attribute' => 'type',
                                 'format' => 'raw',
+                                'filter' => Game::getTypesNames(),
                                 'value' => function ($data) {
                                     /* @var \app\models\Game $data */
-                                    return $data->type;
+                                    return $data->getTypesName();
                                 },
+                                'contentOptions' => ['style' => 'width: 120px;'],
                             ],
                             //'qty',
 

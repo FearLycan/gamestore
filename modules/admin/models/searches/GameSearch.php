@@ -12,6 +12,11 @@ use app\modules\admin\models\Game;
  */
 class GameSearch extends Game
 {
+    public $platform;
+    public $region;
+    public $name;
+    public $status;
+
     /**
      * {@inheritdoc}
      */
@@ -43,12 +48,23 @@ class GameSearch extends Game
     public function search($params)
     {
         $query = Game::find();
+        $query->joinWith(['region region', 'platform platform']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['region'] = [
+            'asc' => ['region.name' => SORT_ASC],
+            'desc' => ['region.name' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['platform'] = [
+            'asc' => ['platform.name' => SORT_ASC],
+            'desc' => ['platform.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -60,30 +76,27 @@ class GameSearch extends Game
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'g2a_id' => $this->g2a_id,
-            'type' => $this->type,
-            'qty' => $this->qty,
-            'min_price' => $this->min_price,
-            'price' => $this->price,
-            'discount' => $this->discount,
-            'region' => $this->region,
-            'platform' => $this->platform,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            //  'id' => $this->id,
+            //'g2a_id' => $this->g2a_id,
+            'game.type' => $this->type,
+            'game.qty' => $this->qty,
+            'game.min_price' => $this->min_price,
+            'game.price' => $this->price,
+            // 'discount' => $this->discount,
+            'region.id' => $this->region,
+            'platform.id' => $this->platform,
+            'game.status' => $this->status,
+            // 'created_at' => $this->created_at,
+            // 'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'thumbnail', $this->thumbnail])
-            ->andFilterWhere(['like', 'smallImage', $this->smallImage])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'developer', $this->developer])
-            ->andFilterWhere(['like', 'publisher', $this->publisher])
-            ->andFilterWhere(['like', 'restrictions', $this->restrictions])
-            ->andFilterWhere(['like', 'requirements', $this->requirements])
-            ->andFilterWhere(['like', 'videos', $this->videos]);
+        $query->andFilterWhere([
+            'or',
+            ['like', 'game.name', $this->name],
+            ['like', 'game.g2a_id', $this->name],
+        ])
+            ->andFilterWhere(['=', 'platform.id', $this->platform])
+            ->andFilterWhere(['=', 'region.id', $this->region]);
 
         return $dataProvider;
     }
