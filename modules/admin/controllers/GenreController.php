@@ -2,10 +2,12 @@
 
 namespace app\modules\admin\controllers;
 
+use kartik\growl\Growl;
 use Yii;
 use app\modules\admin\models\Genre;
 use app\modules\admin\models\searches\GenreSearch;
 use app\modules\admin\components\Controller;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -68,6 +70,15 @@ class GenreController extends Controller
         $model->status = Genre::STATUS_ACTIVE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => 'success',
+                'duration' => 3000,
+                'message' => Html::encode('Gatunek ' . $model->name . ' został dodany.'),
+                'positonY' => 'top',
+                'positonX' => 'left'
+            ]);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -88,6 +99,15 @@ class GenreController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => Growl::TYPE_SUCCESS,
+                'duration' => 3000,
+                'message' => 'Gatunek <strong>' . $model->name . '</strong> został zaktualizowany.',
+                'positonY' => 'top',
+                'positonX' => 'left'
+            ]);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

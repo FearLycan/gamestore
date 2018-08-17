@@ -32,6 +32,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '<alias:admin>' => 'admin/default/index',
+                '<alias:games>' => '/game',
             ],
         ],
     ],

@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use kartik\growl\Growl;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
@@ -173,7 +174,8 @@ AdminAsset::register($this);
                     <a href="javascript:;" data-toggle="collapse" data-target="#game">
                         <i class="fa fa-gamepad" aria-hidden="true"></i> Gry <i
                                 class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="game"  class="<?= in_array(Yii::$app->controller->id, $game) ? 'collapse in' : 'collapse' ?>">
+                    <ul id="game"
+                        class="<?= in_array(Yii::$app->controller->id, $game) ? 'collapse in' : 'collapse' ?>">
                         <li class="<?= Yii::$app->controller->id == 'game' ? 'active' : 'no' ?>">
                             <a href="<?= Url::to(['/admin/game']) ?>">
                                 <i class="fa fa-list" aria-hidden="true"></i> Lista gier
@@ -212,6 +214,23 @@ AdminAsset::register($this);
                         <?= $this->title ?>
                         <small>Statistics Overview</small>
                     </h1>
+
+                    <?php foreach (Yii::$app->session->getAllFlashes() as $key => $session): ?>
+                        <?= Growl::widget([
+                            'type' => $key,
+                            'body' => $session['message'],
+                            'showSeparator' => true,
+                            'delay' => 200,
+                            'pluginOptions' => [
+                                'showProgressbar' => true,
+                                'placement' => [
+                                    'from' => 'top',
+                                    'align' => 'right',
+                                    'timer' => 850,
+                                ]
+                            ]
+                        ]); ?>
+                    <?php endforeach; ?>
 
                     <?= Breadcrumbs::widget([
                         'homeLink' => [

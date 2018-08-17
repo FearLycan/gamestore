@@ -5,6 +5,7 @@
 /* @var $content string */
 
 use app\widgets\Alert;
+use kartik\growl\Growl;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -37,13 +38,18 @@ AppAsset::register($this);
         ],
     ]);
 
-    $items[] = ['label' => 'Home', 'url' => ['/']];
+    $itemsLeft[] = ['label' => 'Gry', 'url' => ['/games']];
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-left'],
+        'items' => $itemsLeft,
+    ]);
 
     if (Yii::$app->user->isGuest) {
-        $items[] = ['label' => 'Zaloguj się', 'url' => ['/auth/login']];
-        $items[] = ['label' => 'Zarejestruj się', 'url' => ['/auth/registration']];
+        $itemsRight[] = ['label' => 'Zaloguj się', 'url' => ['/auth/login']];
+        $itemsRight[] = ['label' => 'Zarejestruj się', 'url' => ['/auth/registration']];
     } else {
-        $items[] = [
+        $itemsRight[] = [
             'label' => Yii::$app->user->identity->name,
             'items' => [
                 ['label' => 'Profil', 'url' => '#'],
@@ -63,16 +69,29 @@ AppAsset::register($this);
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $items,
+        'items' => $itemsRight,
     ]);
     NavBar::end();
     ?>
 
+    <?php foreach (Yii::$app->session->getAllFlashes() as $key => $session): ?>
+        <?= Growl::widget([
+            'type' => $key,
+            'body' => $session['message'],
+            'showSeparator' => true,
+            'delay' => 200,
+            'pluginOptions' => [
+                'showProgressbar' => true,
+                'placement' => [
+                    'from' => 'top',
+                    'align' => 'right',
+                    'timer' => 850,
+                ]
+            ]
+        ]); ?>
+    <?php endforeach; ?>
+
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
         <?= $content ?>
     </div>
 </div>
