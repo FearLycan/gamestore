@@ -15,6 +15,7 @@ class m180808_111410_create_platform_table extends Migration
         $this->createTable('{{%platform}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(),
+            'slug' => $this->string(),
             'status' => $this->smallInteger()->defaultValue(1),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->null(),

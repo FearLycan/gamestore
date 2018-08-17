@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\SluggableBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -11,6 +12,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property int $status
  * @property string $created_at
  * @property string $updated_at
@@ -34,6 +36,11 @@ class Region extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
                 'value' => date("Y-m-d H:i:s"),
+            ],
+            'sluggable' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
             ],
         ];
     }

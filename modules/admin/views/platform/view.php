@@ -36,7 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attributes' => [
                             'id',
                             'name',
-                            'status',
+                            'slug',
+                            [
+                                'attribute' => 'status',
+                                'value' => $model->getStatusName(),
+                            ],
                             'created_at',
                             'updated_at',
                         ],
