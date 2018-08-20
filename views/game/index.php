@@ -12,7 +12,7 @@ $this->title = 'Games';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="game-index">
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin(['scrollTo' => 0]); ?>
 
     <h1>
         <?php if (isset($link['platform']) || isset($link['genre'])): ?>

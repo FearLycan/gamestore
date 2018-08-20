@@ -39,7 +39,7 @@ use yii\bootstrap\ActiveForm;
         <h4>Price</h4>
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'min_price')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'min_price')->textInput(['maxlength' => true, 'placeholder' => 'Min price'])->label(false) ?>
             </div>
             <!--<div class="col-md-2 text-center">
                 <div class="form-group">
@@ -47,7 +47,7 @@ use yii\bootstrap\ActiveForm;
                 </div>
             </div>-->
             <div class="col-md-6">
-                <?= $form->field($model, 'max_price')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'max_price')->textInput(['maxlength' => true, 'placeholder' => 'Max price'])->label(false) ?>
             </div>
         </div>
     </div>
@@ -70,8 +70,7 @@ use yii\bootstrap\ActiveForm;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-block']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

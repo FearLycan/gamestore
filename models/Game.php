@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use http\Env\Url;
 use Yii;
 
 /**
@@ -186,5 +187,62 @@ class Game extends \yii\db\ActiveRecord
     public function getRequirements()
     {
         return json_decode($this->requirements, true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVideos()
+    {
+        return json_decode($this->videos, true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRestrictions()
+    {
+        return json_decode($this->restrictions, true);
+    }
+
+    /**
+     * @param $pegi
+     * @return string
+     */
+    public function getPegiContent($pegi)
+    {
+        switch ($pegi) {
+            case "pegi_violence":
+                $content = '<div class="col-md-3"><div class="thumbnail"><img class="img-responsive" src="' . Url::to(['@web/images/pegi/' . $pegi . '.jpg']) . '" alt="' . $pegi . '"></div></div>';
+                break;
+            case "pegi_profanity":
+                break;
+            case "pegi_discrimination":
+                break;
+            case "pegi_drugs":
+                break;
+            case "pegi_fear":
+                break;
+            case "pegi_gambling":
+                break;
+            case "pegi_online":
+                break;
+            case "pegi_sex":
+                break;
+            default:
+                $content = '';
+                break;
+        }
+
+        return $content;
+
+        /* "pegi_violence": false,
+         "pegi_profanity": false,
+         "pegi_discrimination": false,
+         "pegi_drugs": false,
+         "pegi_fear": false,
+         "pegi_gambling": false,
+         "pegi_online": false,
+         "pegi_sex": false*/
     }
 }

@@ -4,7 +4,6 @@ namespace app\models\searches;
 
 use app\models\Genre;
 use app\models\Platform;
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Game;
@@ -26,8 +25,8 @@ class GameSearch extends Game
     public function rules()
     {
         return [
-            [['id', 'g2a_id', 'type', 'qty', 'discount', 'region_id', 'platform_id', 'status'], 'integer'],
-            [['name', 'slug', 'thumbnail', 'smallImage', 'description', 'developer', 'publisher', 'restrictions', 'requirements', 'videos', 'created_at', 'updated_at'], 'safe'],
+            // [['id', 'g2a_id', 'type', 'qty', 'discount', 'region_id', 'platform_id', 'status'], 'integer'],
+            // [['name', 'slug', 'thumbnail', 'smallImage', 'description', 'developer', 'publisher', 'restrictions', 'requirements', 'videos', 'created_at', 'updated_at'], 'safe'],
 
 
             [['min_price', 'max_price'], 'number'],
@@ -64,12 +63,12 @@ class GameSearch extends Game
 
         if (isset($link['platform'])) {
             $query->joinWith(['platform pp']);
-            $query->andFilterWhere(['=', 'pp.slug', $link['platform']->slug]);
-            $this->platform = $link['platform']->id;
+            $query->andFilterWhere(['=', 'pp.id', $link['platform']->id]);
+            $this->platform[] = $link['platform']->id;
         } elseif (isset($link['genre'])) {
             $query->joinWith(['genres gg']);
-            $query->andFilterWhere(['=', 'gg.slug', $link['genre']->slug]);
-            $this->genre = $link['genre']->id;
+            $query->andFilterWhere(['=', 'gg.id', $link['genre']->id]);
+            $this->genre[] = $link['genre']->id;
         }
 
         // add conditions that should always apply here
@@ -128,7 +127,7 @@ class GameSearch extends Game
      */
     public static function getPlatformsNames()
     {
-        $platforms[] = ArrayHelper::map(
+        $platforms = ArrayHelper::map(
             Platform::find()
                 ->where(['status' => Genre::STATUS_ACTIVE])
                 ->all(),
@@ -146,6 +145,5 @@ class GameSearch extends Game
         }
 
         return ['between', 'price', $this->min_price, $this->max_price];
-
     }
 }

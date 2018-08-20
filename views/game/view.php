@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helpers;
+use yii\helpers\Url;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -93,6 +94,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         Videos
                     </a>
                 </li>
+                <li role="presentation">
+                    <a href="#pegi" aria-controls="pegi" role="tab" data-toggle="tab">
+                        PEGI
+                    </a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -105,6 +111,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
+
+                                <table class="table table-striped table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <th width="150">Developer</th>
+                                        <td><?= Html::encode($model->developer) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="150">Publisher</th>
+                                        <td><?= Html::encode($model->publisher) ?></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
                                 <?= $model->description ?>
                             </div>
                         </div>
@@ -122,43 +142,57 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <p>
                                     Below are the minimum and recommended system specifications for
-                                    <strong><?= Html::encode($model->name) ?></strong>. Due to potential programming
-                                    changes, the minimum system
-                                    requirements for <strong><?= Html::encode($model->name) ?></strong> may change over
-                                    time.
+                                    <strong><?= Html::encode($model->name) ?></strong>.
+                                </p>
+                                <p>
+                                    Due to potential programming changes, the minimum system requirements for
+                                    <strong><?= Html::encode($model->name) ?></strong> may change over time.
                                 </p>
 
-                                <div class="row">
+                                <div class="row" style="margin-top: 30px;">
+
+                                    <div class="col-md-12 text-center">
+                                        <h3>Windows</h3>
+                                    </div>
+
                                     <div class="col-md-6">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>Minimal requirements</th>
+                                                <th colspan="2">Minimal requirements</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <?php foreach ($model->getRequirements()['recommended'] as $key => $requirement): ?>
-                                                <tr>
-                                                    <td><?= Helpers::correctRequirements($key) ?>:</td>
-                                                    <td><?= $requirement ?></td>
-                                                </tr>
+                                            <?php foreach ($model->getRequirements()['minimal'] as $key => $requirement): ?>
+                                                <?php if (!empty(trim($requirement))): ?>
+                                                    <tr>
+                                                        <td>
+                                                            <small><?= Helpers::correctRequirements($key) ?></small>
+                                                        </td>
+                                                        <td><?= $requirement ?></td>
+                                                    </tr>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="col-md-6">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>Recommended requirements</th>
+                                                <th colspan="2">Recommended requirements</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php foreach ($model->getRequirements()['recommended'] as $key => $requirement): ?>
-                                                <tr>
-                                                    <td><?= Helpers::correctRequirements($key) ?>:</td>
-                                                    <td><?= $requirement ?></td>
-                                                </tr>
+                                                <?php if (!empty(trim($requirement))): ?>
+                                                    <tr>
+                                                        <td>
+                                                            <small><?= Helpers::correctRequirements($key) ?></small>
+                                                        </td>
+                                                        <td><?= $requirement ?></td>
+                                                    </tr>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                             </tbody>
                                         </table>
@@ -170,7 +204,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                 </div>
-
                 <div role="tabpanel" class="tab-pane fade" id="videos">
 
                     <div class="row">
@@ -179,7 +212,41 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
-                                <?= $model->description ?>
+                                <?php foreach ($model->getVideos() as $video): ?>
+
+                                    <?php if ($video['type'] == 'YOUTUBE'): ?>
+                                        <iframe width="100%" height="460" src="<?= $video['url'] ?>" frameborder="0"
+                                                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    <?php endif; ?>
+
+                                    <hr>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="pegi">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2 class="product-tab">PEGI</h2>
+                        </div>
+                        <div class="col-md-9">
+                            <div style="margin-top: 20px;">
+                                <?php foreach ($model->getRestrictions() as $name => $restriction): ?>
+
+                                    <?php if ($restriction): ?>
+                                        <div class="col-md-3">
+                                            <div class="thumbnail">
+                                                <img class="img-responsive"
+                                                     src="<?= Url::to(['/images/PEGI/' . $name . '.jpg']) ?>"
+                                                     alt="<?= $name ?>">
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
