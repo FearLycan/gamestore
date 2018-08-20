@@ -133,7 +133,7 @@ class Game extends \yii\db\ActiveRecord
     /**
      * @return string
      */
-    public function getTypesName()
+    public function getTypeName()
     {
         return self::getTypesNames()[$this->type];
     }
@@ -178,5 +178,13 @@ class Game extends \yii\db\ActiveRecord
         }
 
         return $list;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequirements()
+    {
+        return json_decode($this->requirements, true);
     }
 }

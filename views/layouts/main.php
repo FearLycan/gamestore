@@ -24,6 +24,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -73,6 +74,10 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+
+    <div class="scrollbar" id="style-2">
+        <div class="force-overflow"></div>
+    </div>
 
     <?php foreach (Yii::$app->session->getAllFlashes() as $key => $session): ?>
         <?= Growl::widget([

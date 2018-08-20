@@ -6,6 +6,7 @@ use app\components\SluggableBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%genre}}".
@@ -116,5 +117,19 @@ class Genre extends \yii\db\ActiveRecord
     public function getGames()
     {
         return $this->hasMany(Game::className(), ['id' => 'game_id'])->viaTable('{{%game_genre}}', ['genre_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getGenresNames()
+    {
+
+        $genres = Genre::find()
+            ->select(['id', 'name'])
+            ->where(['status' => Genre::STATUS_ACTIVE])
+            ->all();
+
+        return ArrayHelper::map($genres, 'id', 'name');
     }
 }

@@ -61,17 +61,18 @@ class GameController extends Controller
                         $game->type = Game::TYPE_OTHER;
                     }
 
-                    $game->slug = $g2a['slug'];
+                    //$game->slug = $g2a['slug']; str_replace("/","",$g2a['slug']);
+                    $game->slug = str_replace("/", "", $g2a['slug']);
                     $game->qty = $g2a['qty'];
                     $game->min_price = $g2a['minPrice'];
                     $game->price = $g2a['minPrice'];
                     $game->thumbnail = $g2a['thumbnail'];
                     $game->smallImage = $g2a['smallImage'];
                     $game->description = $g2a['description'];
-                    $game->region_id = Region::check($g2a['region']);
+                    // $game->region_id = Region::check($g2a['region']);
                     $game->developer = $g2a['developer'];
                     $game->publisher = $g2a['publisher'];
-                    $game->platform_id = Platform::check($g2a['platform']);
+                    // $game->platform_id = Platform::check($g2a['platform']);
                     $game->restrictions = json_encode($g2a['restrictions']);
                     $game->requirements = json_encode($g2a['requirements']);
                     $game->videos = json_encode($g2a['videos']);

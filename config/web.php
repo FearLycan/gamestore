@@ -11,7 +11,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'cache' => [
@@ -32,7 +32,9 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '<alias:admin>' => 'admin/default/index',
-                '<alias:games>' => '/game',
+                '<alias:games>' => 'game/index',
+                '<alias:games>/<data>' => 'game/index',
+                '<slug>' => 'game/view',
             ],
         ],
     ],

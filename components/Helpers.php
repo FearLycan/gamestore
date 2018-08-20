@@ -1,7 +1,9 @@
 <?php
 
 namespace app\components;
+
 use Yii;
+use yii\helpers\Html;
 use yii\timeago\TimeAgo;
 
 /**
@@ -64,5 +66,13 @@ class Helpers
         ]);
 
         return $timeago;
+    }
+
+    public static function correctRequirements($string)
+    {
+        $string = str_replace("req", "", $string);
+        $string = ucfirst($string);
+
+        return Html::encode($string);
     }
 }

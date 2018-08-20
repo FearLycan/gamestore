@@ -6,6 +6,7 @@ use app\components\SluggableBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%platform}}".
@@ -110,5 +111,19 @@ class Platform extends \yii\db\ActiveRecord
 
         return $platform->id;
 
+    }
+
+    /**
+     * @return array
+     */
+    public static function getPlatformsNames()
+    {
+
+        $genres = Platform::find()
+            ->select(['id', 'name'])
+            ->where(['status' => Platform::STATUS_ACTIVE])
+            ->all();
+
+        return ArrayHelper::map($genres, 'id', 'name');
     }
 }
