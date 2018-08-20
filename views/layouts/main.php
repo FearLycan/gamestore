@@ -46,6 +46,11 @@ AppAsset::register($this);
         'items' => $itemsLeft,
     ]);
 
+    echo "<div class=\"col-sm-3 col-md-6\"><form data-pjax=\"1\" class=\"navbar-form\" method='get' action='".\yii\helpers\Url::to(['/games'])."'>
+            <div class=\"form-group\">
+              <input name=\"search\" id='nav-search' type=\"text\" placeholder=\"Search\" class=\"form-control\">
+            </div></form></div>";
+
     if (Yii::$app->user->isGuest) {
         $itemsRight[] = ['label' => 'Zaloguj się', 'url' => ['/auth/login']];
         $itemsRight[] = ['label' => 'Zarejestruj się', 'url' => ['/auth/registration']];
@@ -110,6 +115,9 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
+<?= $this->blocks['script'] ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

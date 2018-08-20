@@ -341,19 +341,23 @@ h4, .h4 {
     font-size: 15px;
 }
 
-.product-name{
+.product-name {
     font-size: 30px;
     margin-top: 0px;
     font-weight: bold;
 }
 
-.product-price{
+.product-price {
     font-weight: bold;
     font-size: 30px;
     margin-top: 30px;
 }
 
-.product-tab{
+.product-tab {
     font-size: 25px;
     font-weight: bold;
+}
+
+.form-group, input[name="search"] {
+    width: 100% !important;
 }

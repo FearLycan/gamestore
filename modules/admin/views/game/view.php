@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'attribute' => 'type',
                                 'format' => 'raw',
-                                'value' => $model->getTypesName(),
+                                'value' => $model->getTypeName(),
                             ],
                             'slug',
                             'qty',

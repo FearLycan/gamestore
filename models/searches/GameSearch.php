@@ -18,6 +18,7 @@ class GameSearch extends Game
     public $platform;
     public $min_price;
     public $max_price;
+    public $search;
 
     /**
      * {@inheritdoc}
@@ -30,7 +31,7 @@ class GameSearch extends Game
 
 
             [['min_price', 'max_price'], 'number'],
-
+            [['search'], 'string'],
             [['genre'], 'in', 'range' => array_keys(static::getGenresNames()), 'allowArray' => true],
             [['platform'], 'in', 'range' => array_keys(static::getPlatformsNames()), 'allowArray' => true],
         ];
@@ -71,6 +72,8 @@ class GameSearch extends Game
             $this->genre[] = $link['genre']->id;
         }
 
+      //  die(var_dump($this->search));
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -102,7 +105,8 @@ class GameSearch extends Game
             'type' => $this->type,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'game.name', $this->search]);
+        //  $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere($this->priceMinMaxFilter());
 
         return $dataProvider;

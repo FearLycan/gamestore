@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'filter' => Game::getTypesNames(),
                                 'value' => function ($data) {
                                     /* @var \app\models\Game $data */
-                                    return $data->getTypesName();
+                                    return $data->getTypeName();
                                 },
                                 'contentOptions' => ['style' => 'width: 120px;'],
                             ],
