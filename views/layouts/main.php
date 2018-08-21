@@ -9,6 +9,7 @@ use kartik\growl\Growl;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -46,7 +47,7 @@ AppAsset::register($this);
         'items' => $itemsLeft,
     ]);
 
-    echo "<div class=\"col-sm-3 col-md-6\"><form data-pjax=\"1\" class=\"navbar-form\" method='get' action='".\yii\helpers\Url::to(['/games'])."'>
+    echo "<div id='nav-form' class=\"col-sm-3 col-md-6\"><form data-pjax=\"1\" class=\"navbar-form\" method='get' action='" . \yii\helpers\Url::to(['/games']) . "'>
             <div class=\"form-group\">
               <input name=\"search\" id='nav-search' type=\"text\" placeholder=\"Search\" class=\"form-control\">
             </div></form></div>";
@@ -117,6 +118,66 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 
 <?= $this->blocks['script'] ?>
+
+<script>
+
+
+    /* $("#nav-form").hover(function () {
+         $(this).removeClass('col-md-5').addClass('col-md-7');
+         $('#eac-container-nav-search ul').delay(200).css('display', 'block');
+     }, function () {
+         $(this).removeClass('col-md-7').addClass('col-md-5');
+         $('#eac-container-nav-search ul').css('display', 'none');
+     });*/
+
+
+    /*$( "#nav-form" ).click(function() {
+        $(this).removeClass('col-md-5').addClass('col-md-7')
+    });*/
+</script>
+
+<script>
+    var options = {
+        url: function (phrase) {
+            return "<?= Url::to(['site/json'], true) ?>?phrase=" + encodeURIComponent(phrase);
+        },
+        getValue: function (element) {
+            return element.name;
+        },
+        list: {
+            onClickEvent: function () {
+                var value = $("#nav-search").getSelectedItemData().link;
+
+                window.location = value;
+
+            }
+        },
+        template: {
+            type: "custom",
+            method: function (title, item) {
+
+                var price = '';
+                if (item.type == 'game') {
+                    price = '<p class="text-left">' + item.price + '<i class="fa fa-eur" aria-hidden="true"></i></p>';
+                }
+
+
+                return '<div class="row">' +
+                    '<div class="col-md-2">'
+                    + '<img class="img-responsive" src="' + item.img + '">'
+                    + '</div>' +
+                    '<div class="col-md-10"><strong>' +
+                    item.name +
+                    '</strong>' + price + '</div>'
+                    + '</div>';
+            }
+        },
+        requestDelay: 300
+    };
+
+    $("#nav-search").easyAutocomplete(options);
+
+</script>
 
 </body>
 </html>

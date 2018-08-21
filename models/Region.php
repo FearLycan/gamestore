@@ -6,6 +6,7 @@ use app\components\SluggableBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%region}}".
@@ -109,5 +110,18 @@ class Region extends \yii\db\ActiveRecord
         }
 
         return $region->id;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getRegionsNames()
+    {
+        $regions = Region::find()
+            ->select(['id', 'name'])
+            ->where(['status' => Platform::STATUS_ACTIVE])
+            ->all();
+
+        return ArrayHelper::map($regions, 'id', 'name');
     }
 }

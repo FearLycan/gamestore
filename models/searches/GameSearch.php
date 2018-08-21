@@ -4,6 +4,7 @@ namespace app\models\searches;
 
 use app\models\Genre;
 use app\models\Platform;
+use app\models\Region;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Game;
@@ -11,14 +12,55 @@ use yii\helpers\ArrayHelper;
 
 /**
  * GameSearch represents the model behind the search form of `app\models\Game`.
+ *
+ * @property array $genres
+ * @property array $platform
+ * @property array $region
+ * @property double $min_price
+ * @property double $max_price
+ * @property string $search
  */
 class GameSearch extends Game
 {
     public $genre;
     public $platform;
+    public $region;
     public $min_price;
     public $max_price;
     public $search;
+
+    /**
+     * Min length of phrase part.
+     *
+     * @var int
+     */
+    public $minLength = 3;
+
+    /**
+     * @var string[]
+     */
+    public $nameDelimiters = [
+        '{',
+        '}',
+        '\\',
+        '/',
+        '–',
+        '_',
+        ':',
+        '\'',
+        '.',
+        ',',
+        '!',
+        '?',
+        '[',
+        ']',
+        '(',
+        ')',
+        '&',
+        '#',
+        '-',
+        '+',
+    ];
 
     /**
      * {@inheritdoc}
@@ -34,6 +76,7 @@ class GameSearch extends Game
             [['search'], 'string'],
             [['genre'], 'in', 'range' => array_keys(static::getGenresNames()), 'allowArray' => true],
             [['platform'], 'in', 'range' => array_keys(static::getPlatformsNames()), 'allowArray' => true],
+            [['region'], 'in', 'range' => array_keys(static::getRegionNames()), 'allowArray' => true],
         ];
     }
 
@@ -72,8 +115,6 @@ class GameSearch extends Game
             $this->genre[] = $link['genre']->id;
         }
 
-      //  die(var_dump($this->search));
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -99,6 +140,10 @@ class GameSearch extends Game
             $query->andFilterWhere(['in', 'platform_id', $this->platform]);
         }
 
+        if (!empty($this->region) && is_array($this->region)) {
+            $query->andFilterWhere(['in', 'region_id', $this->region]);
+        }
+
         // grid filtering conditions
         $query->andFilterWhere([
             'g2a_id' => $this->g2a_id,
@@ -106,6 +151,8 @@ class GameSearch extends Game
         ]);
 
         $query->andFilterWhere(['like', 'game.name', $this->search]);
+
+        //die(var_dump($this->titleSearch($this->search)));
         //  $query->andFilterWhere(['like', 'name', $this->name]);
         $query->andFilterWhere($this->priceMinMaxFilter());
 
@@ -138,6 +185,20 @@ class GameSearch extends Game
             'id', 'name');
 
         return $platforms;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getRegionNames()
+    {
+        $regions = ArrayHelper::map(
+            Region::find()
+                ->where(['status' => Genre::STATUS_ACTIVE])
+                ->all(),
+            'id', 'name');
+
+        return $regions;
     }
 
     public function priceMinMaxFilter()

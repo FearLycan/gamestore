@@ -2,6 +2,7 @@
 
 use app\models\Genre;
 use app\models\Platform;
+use app\models\Region;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -60,6 +61,20 @@ use yii\bootstrap\ActiveForm;
             <?= $form->field($model, 'platform')
                 ->inline(false)
                 ->checkboxList(Platform::getPlatformsNames(), [
+                    'itemOptions' => [
+                        'class' => 'checkbox-filter',
+                    ]])
+                ->label(false); ?>
+        </div>
+
+        <hr style="margin: 30px 0;">
+
+        <div class="filter">
+            <h4>Regions</h4>
+
+            <?= $form->field($model, 'region')
+                ->inline(false)
+                ->checkboxList(Region::getRegionsNames(), [
                     'itemOptions' => [
                         'class' => 'checkbox-filter',
                     ]])

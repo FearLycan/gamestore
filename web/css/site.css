@@ -361,3 +361,11 @@ h4, .h4 {
 .form-group, input[name="search"] {
     width: 100% !important;
 }
+
+#nav-form {
+    transition: all .2s;
+}
+
+.no-padding {
+    padding: 0 !important;
+}

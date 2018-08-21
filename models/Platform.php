@@ -118,7 +118,6 @@ class Platform extends \yii\db\ActiveRecord
      */
     public static function getPlatformsNames()
     {
-
         $genres = Platform::find()
             ->select(['id', 'name'])
             ->where(['status' => Platform::STATUS_ACTIVE])
