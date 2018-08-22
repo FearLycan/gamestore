@@ -108,7 +108,7 @@ class TranslationController extends Controller
             $model = $this->findModel($data['id']);
 
             $model->translation = $data['translation'];
-            $model->save(false, ['translation']);
+            $model->save();
 
             $status['success'] = true;
         }

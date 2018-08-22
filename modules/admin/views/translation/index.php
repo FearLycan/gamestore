@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="translation-index">
 
 
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
@@ -45,7 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'contentOptions' => ['style' => 'width: 60px;'],
                                 ],
                                 ['class' => 'yii\grid\SerialColumn', 'contentOptions' => ['style' => 'width: 60px;']],
-                                'phrase',
+                                [
+                                    'attribute' => 'phrase',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                        /* @var Translation $data */
+                                        return Html::a($data->phrase, ['translation/view', 'id' => $data->id]);
+                                    },
+                                ],
                                 'translation',
                                 [
                                     'label' => 'Language',
@@ -71,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 <?php $this->registerJsFile(Yii::getAlias('@web') . '/administrator/js/plugins/EditTable/jquery.tabledit.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); ?>
-<?php $this->registerCss(".table > tbody > tr.warning > td{background-color: #dff0d8;}"); ?>
+<?php $this->registerCss(".table > tbody > tr.warning > td{background-color: #dff0d8;} .table > tbody > tr > td{vertical-align: middle;}.table > thead > tr > td{vertical-align: middle;}"); ?>
 <?php $this->beginBlock('script') ?>
     <script>
         $('form select').on('change', function () {
@@ -79,6 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
         })
     </script>
 
+
+<?php if ($dataProvider->totalCount): ?>
     <script>
         $('#translations table').Tabledit({
             url: '<?= Url::to(['translation/update-table']) ?>',
@@ -103,17 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 identifier: [0, 'id'],
                 editable: [[3, 'translation']]
             },
-            onSuccess: function (data, textStatus, jqXHR) {
-
-                if (data['success']) {
-                    console.log('victory!');
-                }
-
-                console.log('onSuccess(data, textStatus, jqXHR)');
-                console.log(data);
-                console.log(textStatus);
-                console.log(jqXHR);
-            },
         });
     </script>
+<?php endif; ?>
 <?php $this->endBlock() ?>
