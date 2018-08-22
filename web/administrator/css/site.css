@@ -72,3 +72,8 @@ table.detail-view th {
 table.detail-view td {
     width: 85%;
 }
+
+.hint-block {
+    font-size: 80%;
+    color: #777;
+}

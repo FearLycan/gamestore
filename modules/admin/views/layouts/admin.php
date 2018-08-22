@@ -14,8 +14,8 @@ $game = [
     'platform', 'game', 'region', 'genre'
 ];
 
-$system = [
-    'visitor'
+$settings = [
+    'language', 'translation'
 ];
 
 AdminAsset::register($this);
@@ -194,6 +194,24 @@ AdminAsset::register($this);
                         <li class="<?= Yii::$app->controller->id == 'region' ? 'active' : 'no' ?>">
                             <a href="<?= Url::to(['/admin/region']) ?>">
                                 <i class="fa fa-globe" aria-hidden="true"></i> Regiony
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#settings">
+                        <i class="fa fa-cogs" aria-hidden="true"></i> Ustawienia <i
+                                class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="settings"
+                        class="<?= in_array(Yii::$app->controller->id, $settings) ? 'collapse in' : 'collapse' ?>">
+                        <li class="<?= Yii::$app->controller->id == 'language' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/language']) ?>">
+                                <i class="fa fa-language" aria-hidden="true"></i> Lista języków
+                            </a>
+                        </li>
+                        <li class="<?= Yii::$app->controller->id == 'translation' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/translation']) ?>">
+                                <i class="fa fa-font" aria-hidden="true"></i> Tłumaczenia
                             </a>
                         </li>
                     </ul>
