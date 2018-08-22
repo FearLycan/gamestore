@@ -31,6 +31,13 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+
+    <div class="above-nav">
+        <div class="container">
+            <p>This is above the navbar</p>
+        </div>
+    </div>
+
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -120,20 +127,9 @@ AppAsset::register($this);
 <?= $this->blocks['script'] ?>
 
 <script>
-
-
-    /* $("#nav-form").hover(function () {
-         $(this).removeClass('col-md-5').addClass('col-md-7');
-         $('#eac-container-nav-search ul').delay(200).css('display', 'block');
-     }, function () {
-         $(this).removeClass('col-md-7').addClass('col-md-5');
-         $('#eac-container-nav-search ul').css('display', 'none');
-     });*/
-
-
-    /*$( "#nav-form" ).click(function() {
-        $(this).removeClass('col-md-5').addClass('col-md-7')
-    });*/
+    $('.navbar').affix({
+        offset: {top: 30}
+    });
 </script>
 
 <script>
