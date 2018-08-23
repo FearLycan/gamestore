@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helpers;
+use app\components\Translator;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <i class="fa fa-globe fa-3x" aria-hidden="true"></i>
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">Region</h4>
+                            <h4 class="media-heading"> <?= Translator::translate('Region') ?> </h4>
                             <?= $model->region->name ?>
                         </div>
                     </div>
@@ -40,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <i class="fa fa-th-large fa-3x" aria-hidden="true"></i>
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">Platform</h4>
+                            <h4 class="media-heading"><?= Translator::translate('Platform') ?></h4>
                             <?= $model->platform->name ?>
                         </div>
                     </div>
@@ -51,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <i class="fa fa-list-alt fa-3x" aria-hidden="true"></i>
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">Type</h4>
+                            <h4 class="media-heading"><?= Translator::translate('Type') ?></h4>
                             <?= $model->getTypeName() ?>
                         </div>
                     </div>
@@ -61,12 +62,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-md-9 col-lg-offset-2">
                     <p class="lead product-price text-right" style="marg">
-                        Price <?= $model->price ?> <i class="fa fa-eur" aria-hidden="true"></i>
+                        <?= Translator::translate('Price') ?> <?= $model->price ?> <i class="fa fa-eur" aria-hidden="true"></i>
                     </p>
                 </div>
 
                 <div class="col-md-9 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-success btn-lg btn-block">BUY NOW</a>
+                    <a href="#" class="btn btn-success btn-lg btn-block"><?= Translator::translate('BUY NOW') ?></a>
                 </div>
             </div>
         </div>
@@ -81,22 +82,22 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
                     <a href="#description" aria-controls="description" role="tab" data-toggle="tab">
-                        Product description
+                        <?= Translator::translate('Product description') ?>
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#requirements" aria-controls="requirements" role="tab" data-toggle="tab">
-                        System requirements
+                        <?= Translator::translate('System requirements') ?>
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#videos" aria-controls="videos" role="tab" data-toggle="tab">
-                        Videos
+                        <?= Translator::translate('Videos') ?>
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#pegi" aria-controls="pegi" role="tab" data-toggle="tab">
-                        PEGI
+                        <?= Translator::translate('PEGI') ?>
                     </a>
                 </li>
             </ul>
@@ -107,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h2 class="product-tab">Product description</h2>
+                            <h2 class="product-tab"><?= Translator::translate('Product description') ?></h2>
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
@@ -115,11 +116,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <table class="table table-striped table-bordered">
                                     <tbody>
                                     <tr>
-                                        <th width="150">Developer</th>
+                                        <th width="150"><?= Translator::translate('Developer') ?></th>
                                         <td><?= Html::encode($model->developer) ?></td>
                                     </tr>
                                     <tr>
-                                        <th width="150">Publisher</th>
+                                        <th width="150"><?= Translator::translate('Publisher') ?></th>
                                         <td><?= Html::encode($model->publisher) ?></td>
                                     </tr>
                                     </tbody>
@@ -135,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h2 class="product-tab">System requirements</h2>
+                            <h2 class="product-tab"><?= Translator::translate('System requirements') ?></h2>
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
@@ -208,7 +209,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h2 class="product-tab">Videos</h2>
+                            <h2 class="product-tab"> <?= Translator::translate('Videos') ?></h2>
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
@@ -230,7 +231,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-md-3">
-                            <h2 class="product-tab">PEGI</h2>
+                            <h2 class="product-tab"><?= Translator::translate('PEGI') ?></h2>
                         </div>
                         <div class="col-md-9">
                             <div style="margin-top: 20px;">
@@ -255,6 +256,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-
 
 </div>

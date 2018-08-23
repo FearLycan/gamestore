@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Translator;
 use app\models\Genre;
 use app\models\Platform;
 use app\models\Region;
@@ -22,7 +23,7 @@ use yii\bootstrap\ActiveForm;
         ]); ?>
 
         <div class="filter">
-            <h4>Genres</h4>
+            <h4> <?= Translator::translate('Genres') ?> </h4>
 
             <?= $form->field($model, 'genre')
                 ->inline(false)
@@ -37,7 +38,7 @@ use yii\bootstrap\ActiveForm;
         <hr style="margin: 30px 0;">
 
         <div class="filter">
-            <h4>Price</h4>
+            <h4> <?= Translator::translate('Price') ?> </h4>
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, 'min_price')->textInput(['maxlength' => true, 'placeholder' => 'Min price'])->label(false) ?>
@@ -56,7 +57,7 @@ use yii\bootstrap\ActiveForm;
         <hr style="margin: 30px 0;">
 
         <div class="filter">
-            <h4>Platforms</h4>
+            <h4> <?= Translator::translate('Platforms') ?> </h4>
 
             <?= $form->field($model, 'platform')
                 ->inline(false)
@@ -70,7 +71,7 @@ use yii\bootstrap\ActiveForm;
         <hr style="margin: 30px 0;">
 
         <div class="filter">
-            <h4>Regions</h4>
+            <h4> <?= Translator::translate('Regions') ?> </h4>
 
             <?= $form->field($model, 'region')
                 ->inline(false)
@@ -86,7 +87,7 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'search')->hiddenInput()->label(false); ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-block']) ?>
+            <?= Html::submitButton(Translator::translate('Search'), ['class' => 'btn btn-primary btn-block']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

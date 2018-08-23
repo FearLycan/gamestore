@@ -12,6 +12,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use app\assets\AppAsset;
+use app\components\Translator;
 
 AppAsset::register($this);
 ?>
@@ -56,7 +57,7 @@ AppAsset::register($this);
         ],
     ]);
 
-    $itemsLeft[] = ['label' => 'Gry', 'url' => ['/games']];
+    $itemsLeft[] = ['label' => Translator::translate('Games'), 'url' => ['/games']];
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-left'],
@@ -65,12 +66,12 @@ AppAsset::register($this);
 
     echo "<div id='nav-form' class=\"col-sm-3 col-md-6\"><form data-pjax=\"1\" class=\"navbar-form\" method='get' action='" . \yii\helpers\Url::to(['/games']) . "'>
             <div class=\"form-group\">
-              <input name=\"search\" id='nav-search' type=\"text\" placeholder=\"Search\" class=\"form-control\">
+              <input name=\"search\" id='nav-search' type=\"text\" placeholder='" . Translator::translate('Search') . "' class=\"form-control\">
             </div></form></div>";
 
     if (Yii::$app->user->isGuest) {
-        $itemsRight[] = ['label' => 'Zaloguj się', 'url' => ['/auth/login']];
-        $itemsRight[] = ['label' => 'Zarejestruj się', 'url' => ['/auth/registration']];
+        $itemsRight[] = ['label' => Translator::translate('Sign in'), 'url' => ['/auth/login']];
+        $itemsRight[] = ['label' => Translator::translate('Sign up'), 'url' => ['/auth/registration']];
     } else {
         $itemsRight[] = [
             'label' => Yii::$app->user->identity->name,

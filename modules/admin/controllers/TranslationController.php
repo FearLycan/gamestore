@@ -7,6 +7,7 @@ use Yii;
 use app\modules\admin\models\Translation;
 use app\modules\admin\models\searches\TranslationSearch;
 use app\modules\admin\components\Controller;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
@@ -71,7 +72,16 @@ class TranslationController extends Controller
         $model->language_id = Language::find()->where(['short_name' => Yii::$app->language])->one()->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            Yii::$app->getSession()->setFlash('success', [
+                'type' => 'success',
+                'duration' => 3000,
+                'message' => Html::encode('Tłumaczenie zostało dodane'),
+                'positonY' => 'top',
+                'positonX' => 'left'
+            ]);
+
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Translator;
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
@@ -8,7 +9,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\searches\GameSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Games';
+$this->title = Translator::translate('Games');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="game-index">
@@ -16,10 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1>
         <?php if (isset($link['platform']) || isset($link['genre'])): ?>
-            <?= $link['name'] . ' - ' ?>
+            <?= Translator::translate($link['name']) . ' - ' ?>
         <?php endif; ?>
         <?= Html::encode($this->title) ?>
-        <small class="text-muted">(<?= $dataProvider->getTotalCount() ?> products)</small>
+        <small class="text-muted">(<?= $dataProvider->getTotalCount() ?> <?= Translator::translate('products') ?>)</small>
     </h1>
 
 
