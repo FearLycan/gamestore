@@ -4,13 +4,13 @@
 
 /* @var $content string */
 
-use app\widgets\Alert;
+use app\models\Language;
 use kartik\growl\Growl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -34,7 +34,16 @@ AppAsset::register($this);
 
     <div class="above-nav">
         <div class="container">
-            <p>This is above the navbar</p>
+            <div class="row">
+                <div class="col-md-2">
+                    <?= Html::beginForm(['site/language'], 'post', ['data-pjax' => '1', 'id' => 'language-form']); ?>
+                    <div class="form-group">
+                        <?= Html::dropDownList('language', Yii::$app->language, ArrayHelper::map(Language::find()->orderBy(['name' => SORT_ASC])->all(), 'short_name', 'name'),
+                            ['class' => 'form-control language-dropdown']) ?>
+                    </div>
+                    <?= Html::endForm() ?>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -127,6 +136,10 @@ AppAsset::register($this);
 <?= $this->blocks['script'] ?>
 
 <script>
+    $("#language-form select").on('change', function () {
+        $(this).closest('form').submit();
+    });
+
     $('.navbar').affix({
         offset: {top: 30}
     });

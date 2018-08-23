@@ -8,7 +8,12 @@ $config = [
     'timeZone' => 'Europe/Warsaw',
     'language' => 'pl',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        [
+            'class' => 'app\components\LanguageSelector',
+        ]
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

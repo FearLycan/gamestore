@@ -5,6 +5,7 @@ namespace app\models;
 use app\components\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%language}}".
@@ -111,5 +112,14 @@ class Language extends ActiveRecord
     public function getStatusName()
     {
         return User::getStatusNames()[$this->status];
+    }
+
+    public static function getSupportedLanguages()
+    {
+        $langs = ArrayHelper::map(
+            Language::find()->all(),
+            'id', 'short_name');
+
+        return $langs;
     }
 }

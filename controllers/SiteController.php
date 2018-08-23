@@ -5,12 +5,14 @@ namespace app\controllers;
 use app\components\Helpers;
 use app\models\Game;
 use app\models\Genre;
+use app\models\Language;
 use app\models\Platform;
 use Yii;
 use yii\filters\AccessControl;
 use app\components\Controller;
-use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\Cookie;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 
@@ -37,6 +39,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'language' => ['post'],
                 ],
             ],
         ];
@@ -66,58 +69,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -233,5 +184,32 @@ class SiteController extends Controller
         }
 
 
+    }
+
+    /**
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionLanguage()
+    {
+        if (Yii::$app->request->post()) {
+            $language = Yii::$app->request->post('language');
+
+            $lang = Language::find()->where(['short_name' => $language])->one();
+
+            if ($lang === null) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } else {
+                Yii::$app->language = $language;
+
+                $languageCookie = new Cookie([
+                    'name' => 'language',
+                    'value' => $language,
+                    'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+                ]);
+                Yii::$app->response->cookies->add($languageCookie);
+                $this->redirect(Yii::$app->request->referrer);
+            }
+        }
     }
 }
