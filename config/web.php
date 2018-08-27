@@ -12,6 +12,9 @@ $config = [
         'log',
         [
             'class' => 'app\components\LanguageSelector',
+        ],
+        [
+            'class' => 'app\components\CurrencySelector',
         ]
     ],
     'aliases' => [

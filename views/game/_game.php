@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helpers;
+use app\components\Price;
 use app\models\Game;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -22,13 +23,13 @@ use yii\helpers\Url;
     <div class="caption">
         <h4 class="group inner list-group-item-heading">
             <a href="<?= Url::to(['game/view', 'slug' => $model->slug]) ?>">
-                <?= Helpers::cutThis(Html::encode($model->name),70) ?>
+                <?= Helpers::cutThis(Html::encode($model->name), 70) ?>
             </a>
         </h4>
         <div class="row">
             <div class="col-xs-12 col-md-12 col-lg-12">
                 <p class="lead lead-price text-right">
-                    <?= $model->price ?> <i class="fa fa-eur" aria-hidden="true"></i>
+                    <?= Price::get($model->price) ?>
                 </p>
             </div>
         </div>

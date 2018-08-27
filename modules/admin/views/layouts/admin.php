@@ -15,7 +15,7 @@ $game = [
 ];
 
 $settings = [
-    'language', 'translation'
+    'language', 'translation', 'currency'
 ];
 
 AdminAsset::register($this);
@@ -212,6 +212,11 @@ AdminAsset::register($this);
                         <li class="<?= Yii::$app->controller->id == 'translation' ? 'active' : 'no' ?>">
                             <a href="<?= Url::to(['/admin/translation']) ?>">
                                 <i class="fa fa-font" aria-hidden="true"></i> Tłumaczenia
+                            </a>
+                        </li>
+                        <li class="<?= Yii::$app->controller->id == 'currency' ? 'active' : 'no' ?>">
+                            <a href="<?= Url::to(['/admin/currency']) ?>">
+                                <i class="fa fa-dollar" aria-hidden="true"></i> Waluty
                             </a>
                         </li>
                     </ul>

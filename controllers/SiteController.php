@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Helpers;
+use app\models\Currency;
 use app\models\Game;
 use app\models\Genre;
 use app\models\Language;
@@ -40,6 +41,7 @@ class SiteController extends Controller
                 'actions' => [
                     'logout' => ['post'],
                     'language' => ['post'],
+                    'currency' => ['post'],
                 ],
             ],
         ];
@@ -208,6 +210,33 @@ class SiteController extends Controller
                     'expire' => time() + 60 * 60 * 24 * 30, // 30 days
                 ]);
                 Yii::$app->response->cookies->add($languageCookie);
+                $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+    /**
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function actionCurrency()
+    {
+        if (Yii::$app->request->post()) {
+            $code = Yii::$app->request->post('currency');
+
+            $currency = Currency::find()->where(['code' => $code])->one();
+
+            if ($currency === null) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            } else {
+                Yii::$app->params['currency'] = $code;
+
+                $currencyCookie = new Cookie([
+                    'name' => 'currency',
+                    'value' => $code,
+                    'expire' => time() + 60 * 60 * 24 * 30, // 30 days
+                ]);
+                Yii::$app->response->cookies->add($currencyCookie);
                 $this->redirect(Yii::$app->request->referrer);
             }
         }

@@ -1,6 +1,7 @@
 <?php
 
 use app\components\Helpers;
+use app\components\Price;
 use app\components\Translator;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -62,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-md-9 col-lg-offset-2">
                     <p class="lead product-price text-right" style="marg">
-                        <?= Translator::translate('Price') ?> <?= $model->price ?> <i class="fa fa-eur" aria-hidden="true"></i>
+                        <?= Translator::translate('Price') ?> <?= Price::get($model->price) ?>
                     </p>
                 </div>
 

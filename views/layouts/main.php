@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use app\models\Currency;
 use app\models\Language;
 use kartik\growl\Growl;
 use yii\helpers\ArrayHelper;
@@ -40,6 +41,14 @@ AppAsset::register($this);
                     <?= Html::beginForm(['site/language'], 'post', ['data-pjax' => '1', 'id' => 'language-form']); ?>
                     <div class="form-group">
                         <?= Html::dropDownList('language', Yii::$app->language, ArrayHelper::map(Language::find()->orderBy(['name' => SORT_ASC])->all(), 'short_name', 'name'),
+                            ['class' => 'form-control language-dropdown']) ?>
+                    </div>
+                    <?= Html::endForm() ?>
+                </div>
+                <div class="col-md-2">
+                    <?= Html::beginForm(['site/currency'], 'post', ['data-pjax' => '1', 'id' => 'currency-form']); ?>
+                    <div class="form-group">
+                        <?= Html::dropDownList('currency', Yii::$app->params['currency'], ArrayHelper::map(Currency::find()->where(['status' => Currency::STATUS_ACTIVE])->orderBy(['name' => SORT_ASC])->all(), 'code', 'code'),
                             ['class' => 'form-control language-dropdown']) ?>
                     </div>
                     <?= Html::endForm() ?>
@@ -138,6 +147,10 @@ AppAsset::register($this);
 
 <script>
     $("#language-form select").on('change', function () {
+        $(this).closest('form').submit();
+    });
+
+    $("#currency-form select").on('change', function () {
         $(this).closest('form').submit();
     });
 
