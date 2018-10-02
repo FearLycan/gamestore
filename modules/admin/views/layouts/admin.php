@@ -170,6 +170,9 @@ AdminAsset::register($this);
                 <li class="<?= Yii::$app->controller->id == 'default' ? 'active' : 'no' ?>">
                     <a href="<?= Url::to(['/admin']) ?>"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
+                <li class="<?= Yii::$app->controller->id == 'transaction' ? 'active' : 'no' ?>">
+                    <a href="<?= Url::to(['/admin/transaction']) ?>"><i class="fa fa-archive" aria-hidden="true"></i> Transakcje</a>
+                </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#game">
                         <i class="fa fa-gamepad" aria-hidden="true"></i> Gry <i

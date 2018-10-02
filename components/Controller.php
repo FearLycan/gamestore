@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use app\models\LogErrorPage;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -16,8 +17,11 @@ class Controller extends \yii\web\Controller
     public function notFound($message = null)
     {
         if ($message === null) {
-            $message = 'Strona, której szukasz nie istnieje.';
+            $message = Translator::translate('The page you are looking for does not exist.');
         }
+
+        LogErrorPage::log(LogErrorPage::TYPE_ERROR_404);
+
         throw new NotFoundHttpException($message);
     }
 
@@ -30,7 +34,7 @@ class Controller extends \yii\web\Controller
     public function accessDenied($message = null)
     {
         if ($message === null) {
-            $message = 'Nie jesteś uprawniony do przeglądania tej strony.';
+            $message = Translator::translate('You are not authorized to view this page.');
         }
         throw new ForbiddenHttpException($message);
     }

@@ -81,6 +81,6 @@ class GameController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        $this->notFound('The requested page does not exist.');
     }
 }
