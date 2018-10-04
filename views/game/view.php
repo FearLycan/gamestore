@@ -68,7 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
                 <div class="col-md-9 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-success btn-lg btn-block"><?= Translator::translate('BUY NOW') ?></a>
+                    <a href="<?= Url::to(['order/create', 'slug' => $model->slug]) ?>" data-method="post"
+                       class="btn btn-success btn-lg btn-block"><?= Translator::translate('BUY NOW') ?></a>
                 </div>
             </div>
         </div>

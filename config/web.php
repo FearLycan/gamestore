@@ -43,6 +43,8 @@ $config = [
                 '<alias:games>' => 'game/index',
                 '<alias:games>/<data>' => 'game/index',
                 '<slug>' => 'game/view',
+                //'order/<hash>' => 'order/view',
+                //'order/pay/<hash>' => 'order/pay',
             ],
         ],
     ],

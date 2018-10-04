@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\Translator;
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -134,5 +135,21 @@ class Currency extends ActiveRecord
             'id', 'code');
 
         return $currency;
+    }
+
+    public static function getCurrentCurrency()
+    {
+        /* @var $currency Currency */
+        $currency = Currency::find()
+            ->where(['code' => Yii::$app->params['currency']])
+            ->andWhere(['status' => Currency::STATUS_ACTIVE])->one();
+
+        if (empty($currency)) {
+            $currency = Currency::find()
+                ->where(['code' => Yii::$app->params['default_currency']])
+                ->andWhere(['status' => Currency::STATUS_ACTIVE])->one();
+        }
+
+        return ['id' => $currency->id, 'code' => $currency->code, 'rate' => $currency->rate];
     }
 }
