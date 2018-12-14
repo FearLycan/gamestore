@@ -5,7 +5,7 @@ namespace app\modules\admin;
 /**
  * admin module definition class
  */
-class Module extends \yii\base\Module
+class Admin extends \yii\base\Module
 {
     /**
      * {@inheritdoc}

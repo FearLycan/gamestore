@@ -2,12 +2,11 @@
 
 namespace app\models\forms;
 
-
+use app\models\Cart;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\web\Cookie;
 
-class CartForm extends ActiveRecord
+class CartForm extends Cart
 {
     const MIN_QTY = 1;
 
@@ -43,18 +42,30 @@ class CartForm extends ActiveRecord
         $cookies = Yii::$app->request->cookies;
         $cart = $cookies->get('cart');
 
-        $item = [
+        $product = [
             'id' => $this->id,
             'qty' => $this->qty
         ];
 
         if ($cart !== null) {
+            $new = true;
             $cart = json_decode($cart, true);
-        }else{
-            $cart = [];
-        }
 
-        $cart[] = $item;
+            foreach ($cart as $key => $item) {
+                if ($this->id == $item['id']) {
+                    $cart[$key]['qty'] += $this->qty;
+                    $new = false;
+                }
+            }
+
+            if ($new) {
+                $cart[] = $product;
+            }
+
+        } else {
+            $cart = [];
+            $cart[] = $product;
+        }
 
         $cartCookie = new Cookie([
             'name' => 'cart',

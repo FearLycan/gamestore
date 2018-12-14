@@ -23,21 +23,6 @@ use yii\bootstrap\ActiveForm;
         ]); ?>
 
         <div class="filter">
-            <h4> <?= Translator::translate('Genres') ?> </h4>
-
-            <?= $form->field($model, 'genre')
-                ->inline(false)
-                ->checkboxList(Genre::getGenresNames(), [
-                    'itemOptions' => [
-                        'class' => 'checkbox-filter',
-                    ]])
-                ->label(false); ?>
-
-        </div>
-
-        <hr style="margin: 30px 0;">
-
-        <div class="filter">
             <h4> <?= Translator::translate('Price') ?> </h4>
             <div class="row">
                 <div class="col-md-6">

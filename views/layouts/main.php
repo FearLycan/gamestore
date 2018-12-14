@@ -115,23 +115,6 @@ AppAsset::register($this);
         <div class="force-overflow"></div>
     </div>
 
-    <?php foreach (Yii::$app->session->getAllFlashes() as $key => $session): ?>
-        <?= Growl::widget([
-            'type' => $key,
-            'body' => $session['message'],
-            'showSeparator' => true,
-            'delay' => 200,
-            'pluginOptions' => [
-                'showProgressbar' => true,
-                'placement' => [
-                    'from' => 'top',
-                    'align' => 'right',
-                    'timer' => 850,
-                ]
-            ]
-        ]); ?>
-    <?php endforeach; ?>
-
     <div class="container">
         <?= $content ?>
     </div>

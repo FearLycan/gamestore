@@ -60,7 +60,7 @@ class GameController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($slug)
+    public function actionView($slug, $success = false)
     {
         $model = $this->findModel($slug);
 
@@ -71,6 +71,9 @@ class GameController extends Controller
 
         if ($cart->load(Yii::$app->request->post()) && $cart->validate()) {
             $cart->addToCart();
+
+            Yii::$app->session->setFlash('cart-success');
+
             return $this->redirect(Yii::$app->request->referrer);
         }
 
