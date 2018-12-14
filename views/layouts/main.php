@@ -168,7 +168,7 @@ AppAsset::register($this);
 
                 var price = '';
                 if (item.type == 'game') {
-                    price = '<p class="text-left">' + item.price + '<i class="fa fa-eur" aria-hidden="true"></i></p>';
+                    price = '<p class="text-left">' + item.price + '</p>';
                 }
 
 

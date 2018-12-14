@@ -113,7 +113,7 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
 
                                                         <a class="btn btn-warning pull-left"
                                                            href="<?= Url::to(['/games']) ?>">
-                                                            <?= Translator::translate('By more') ?>
+                                                            <?= Translator::translate('Buy more') ?>
                                                         </a>
                                                         <a class="btn btn-success pull-right"
                                                            href="<?= Url::to(['cart/index']) ?>">
@@ -170,7 +170,7 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                             </div>
                                             <div class="modal-footer">
                                                 <a class="btn btn-warning pull-left" href="<?= Url::to(['/games']) ?>">
-                                                    <?= Translator::translate('By more') ?>
+                                                    <?= Translator::translate('Buy more') ?>
                                                 </a>
                                                 <a class="btn btn-success pull-right"
                                                    href="<?= Url::to(['cart/index']) ?>">
@@ -278,7 +278,7 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                             <table class="table table-striped table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="2">Minimal requirements</th>
+                                                    <th colspan="2"><?= Translator::translate('Minimal requirements') ?></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -299,7 +299,7 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                             <table class="table table-striped table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th colspan="2">Recommended requirements</th>
+                                                    <th colspan="2"><?= Translator::translate('Recommended requirements') ?></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Helpers;
+use app\components\Price;
 use app\models\Currency;
 use app\models\Game;
 use app\models\Genre;
@@ -172,7 +173,7 @@ class SiteController extends Controller
                     'name' => Helpers::cutThis($game->name, 50),
                     'link' => Url::to(['game/view', 'slug' => $game->slug], true),
                     'img' => $game->thumbnail,
-                    'price' => $game->price,
+                    'price' => Price::get($game->price),
                     'type' => 'game',
                 ];
             }
