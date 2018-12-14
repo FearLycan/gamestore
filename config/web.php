@@ -24,35 +24,9 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
-        'user' => [
-            'class' => 'app\components\WebUser',
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-            'loginUrl' => ['auth/login'],
-        ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
         'db' => $db,
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '<alias:admin>' => 'admin/default/index',
-                '<alias:games>' => 'game/index',
-                '<alias:games>/<data>' => 'game/index',
-                '<slug>' => 'game/view',
-                //'order/<hash>' => 'order/view',
-                //'order/pay/<hash>' => 'order/pay',
-            ],
-        ],
-    ],
-    'modules' => [
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
+        'assetManager' => [
+            'appendTimestamp' => true,
         ],
     ],
     'params' => $params,
