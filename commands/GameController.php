@@ -21,7 +21,7 @@ class GameController extends Controller
         $apiSecret = 'b0d293f6-e1d2-4629-8264-fd63b5af3207b0d293f6-e1d2-4629-8264-fd63b5af3207'; // customer API secret
 
         $apiKey = hash('sha256', $apiHash . $g2aEmail . $apiSecret);
-        $apiKey = '74026b3dc2c6db6a30a73e71cdb138b1e1b5eb7a97ced46689e2d28db1050875';
+        //$apiKey = '74026b3dc2c6db6a30a73e71cdb138b1e1b5eb7a97ced46689e2d28db1050875';
 
         $productsApiUrl = 'https://' . $envDomain . '/v1/products';
 
@@ -69,10 +69,10 @@ class GameController extends Controller
                     $game->thumbnail = $g2a['thumbnail'];
                     $game->smallImage = $g2a['smallImage'];
                     $game->description = $g2a['description'];
-                    // $game->region_id = Region::check($g2a['region']);
+                    $game->region_id = Region::check($g2a['region']);
                     $game->developer = $g2a['developer'];
                     $game->publisher = $g2a['publisher'];
-                    // $game->platform_id = Platform::check($g2a['platform']);
+                    $game->platform_id = Platform::check($g2a['platform']);
                     $game->restrictions = json_encode($g2a['restrictions']);
                     $game->requirements = json_encode($g2a['requirements']);
                     $game->videos = json_encode($g2a['videos']);

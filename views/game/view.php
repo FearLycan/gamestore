@@ -32,7 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading"> <?= Translator::translate('Region') ?> </h4>
-                            <?= $model->region->name ?>
+
+                            <?php if(isset($model->region)): ?>
+                                <?= $model->region->name ?>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </div>
