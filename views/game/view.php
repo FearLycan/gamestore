@@ -12,6 +12,9 @@ use yii\helpers\Html;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerCss(".help-block { width: 200px; text-align: left; }");
+
 ?>
 <div class="game-view">
 
@@ -32,11 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading"> <?= Translator::translate('Region') ?> </h4>
-
-                            <?php if(isset($model->region)): ?>
-                                <?= $model->region->name ?>
-                            <?php endif; ?>
-
+                            <?= $model->region->name ?>
                         </div>
                     </div>
                 </div>
@@ -66,14 +65,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="row">
                 <div class="col-md-9 col-lg-offset-2">
-                    <p class="lead product-price text-right" style="marg">
+                    <p class="text-right" style="margin-top: 30px;">
+                        <small>
+                            <?= Translator::translate('Code') ?>: <?= Html::encode($model->g2a_id) ?><br>
+                            <?= Translator::translate('QTY') ?>: <?= Html::encode($model->qty) ?>
+                        </small>
+                    </p>
+                    <p class="lead product-price text-right" style="margin-top: 0px;">
                         <?= Translator::translate('Price') ?> <?= Price::get($model->price) ?>
                     </p>
                 </div>
 
                 <div class="col-md-9 col-lg-offset-2 text-center">
-                    <a href="<?= Url::to(['order/create', 'slug' => $model->slug]) ?>" data-method="post"
-                       class="btn btn-success btn-lg btn-block"><?= Translator::translate('BUY NOW') ?></a>
+
+                    <div class="row">
+
+                        <?= $this->render('_cart-form', [
+                            'model' => $cart,
+                        ]) ?>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>

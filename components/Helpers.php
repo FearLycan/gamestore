@@ -75,4 +75,14 @@ class Helpers
 
         return Html::encode($string);
     }
+
+    public static function cart()
+    {
+        $cookies = Yii::$app->request->cookies;
+
+        $cart = $cookies->getValue('cart');
+
+        return count(json_decode($cart));
+
+    }
 }

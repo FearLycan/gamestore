@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\forms\CartForm;
 use app\models\Genre;
 use app\models\Platform;
 use Yii;
@@ -61,8 +62,21 @@ class GameController extends Controller
      */
     public function actionView($slug)
     {
+        $model = $this->findModel($slug);
+
+        $cart = new CartForm();
+        $cart->qty = 1;
+        $cart->max_qty = $model->qty;
+        $cart->id = $model->id;
+
+        if ($cart->load(Yii::$app->request->post()) && $cart->validate()) {
+            $cart->addToCart();
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($slug),
+            'model' => $model,
+            'cart' => $cart,
         ]);
     }
 

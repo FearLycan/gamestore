@@ -4,6 +4,7 @@
 
 /* @var $content string */
 
+use app\components\Helpers;
 use app\models\Currency;
 use app\models\Language;
 use kartik\growl\Growl;
@@ -99,10 +100,13 @@ AppAsset::register($this);
         ];
     }
 
+    $itemsRight[] = ['label' => '<i class="fa fa-shopping-cart" aria-hidden="true"></i> (' . Helpers::cart() . ')', 'url' => ['cart/index']];
+
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $itemsRight,
+        'encodeLabels' => false,
     ]);
     NavBar::end();
     ?>
