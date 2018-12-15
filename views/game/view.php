@@ -112,10 +112,10 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                                         </h3>
 
                                                         <a class="btn btn-warning pull-left"
-                                                           href="<?= Url::to(['/games']) ?>">
-                                                            <?= Translator::translate('Buy more') ?>
+                                                           href="<?= Url::to(['/games']) ?>" data-pjax="0">
+                                                        <?= Translator::translate('Buy more') ?>
                                                         </a>
-                                                        <a class="btn btn-success pull-right"
+                                                        <a class="btn btn-success pull-right" data-pjax="0"
                                                            href="<?= Url::to(['cart/index']) ?>">
                                                             <?= Translator::translate('Go to cart') ?>
                                                         </a>
@@ -139,14 +139,14 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                                         <div class="col-sm-6 col-md-4">
 
                                                             <div class="thumbnail product">
-                                                                <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>">
+                                                                <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>" data-pjax="0">
                                                                     <img src="<?= $game->smallImage ?>"
                                                                          alt="<?= Html::encode($game->name) ?>">
                                                                 </a>
                                                                 <div class="caption">
 
                                                                     <h4 class="group inner list-group-item-heading">
-                                                                        <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>">
+                                                                        <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>" data-pjax="0">
                                                                             <?= Helpers::cutThis(Html::encode($game->name), 40) ?>
                                                                         </a>
                                                                     </h4>
@@ -155,7 +155,7 @@ $this->registerCss(".help-block { width: 200px; text-align: left; }");
                                                                         <?= Price::get($game->price) ?>
                                                                     </p>
                                                                     <p style="text-align: center;">
-                                                                        <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>"
+                                                                        <a href="<?= Url::to(['game/view', 'slug' => $game->slug]) ?>" data-pjax="0"
                                                                            class="btn btn-primary btn-block">
                                                                             <?= Translator::translate('Check this game') ?>
                                                                         </a>
