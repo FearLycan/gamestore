@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\components\Controller;
+use app\models\Cart;
+use app\models\forms\PromoCodeForm;
 use app\models\Game;
 use Yii;
 use yii\filters\VerbFilter;
@@ -17,7 +19,9 @@ class CartController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'remove-item' => ['post'],
+                    'remove-promo' => ['post'],
                     'add-item' => ['post'],
+                    'add-promo' => ['post'],
                 ],
             ],
         ];
@@ -26,39 +30,27 @@ class CartController extends Controller
     public function actionIndex()
     {
         $products = [];
+        $promoCode = new PromoCodeForm();
 
         $cookies = Yii::$app->request->cookies;
         $cart = json_decode($cookies->get('cart'), true);
+        $pCode = json_decode($cookies->get('promo'), true);
 
         if (count($cart) > 0) {
-            $total = 0;
 
+            if ($promoCode->load(Yii::$app->request->post()) && $promoCode->validate()) {
+                $promoCode->setPromoCode();
+                $this->redirect(['cart/index']);
+            }
 
             $ids = array_column($cart, 'id');
 
-            $products['items'] = Game::find()
-                ->joinWith(['platform platform', 'region region'])
-                ->select(['game.id', 'game.name', 'game.description', 'game.slug', 'game.qty', 'game.smallImage', 'game.region_id', 'game.platform_id',
-                    'game.price', 'region.name region', 'platform.name platform'])
-                ->where(['in', 'game.id', $ids])
-                ->andWhere(['game.status' => Game::STATUS_ACTIVE])
-                ->asArray()
-                ->all();
-
-            foreach ($products['items'] as $key => $product) {
-                foreach ($cart as $c) {
-                    if ($product['id'] == $c['id']) {
-                        $products['items'][$key]['quantity'] = $c['qty'];
-                        $total += ($products['items'][$key]['quantity'] * $products['items'][$key]['price']);
-                    }
-                }
-            }
-
-            $products['total'] = $total;
+            $products = Cart::getProducts($ids, $cart, $pCode);
         }
 
         return $this->render('index', [
-            'products' => $products
+            'products' => $products,
+            'promoCode' => $promoCode
         ]);
     }
 
@@ -124,5 +116,18 @@ class CartController extends Controller
 
             Yii::$app->response->cookies->add($cartCookie);
         }
+    }
+
+    public function actionRemovePromo()
+    {
+        $cartCookie = new Cookie([
+            'name' => 'promo',
+            'value' => json_encode([]),
+            'expire' => time() + 60 * 60 * 24 * 7, // 7 days
+        ]);
+
+        Yii::$app->response->cookies->add($cartCookie);
+
+        $this->redirect(['cart/index']);
     }
 }

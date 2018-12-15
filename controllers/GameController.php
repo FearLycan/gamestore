@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\forms\CartForm;
+use app\models\forms\PromoCodeForm;
 use app\models\Genre;
 use app\models\Platform;
 use Yii;
@@ -60,7 +61,7 @@ class GameController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($slug, $success = false)
+    public function actionView($slug)
     {
         $model = $this->findModel($slug);
 

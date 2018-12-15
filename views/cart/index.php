@@ -3,9 +3,12 @@
 use app\components\Helpers;
 use app\components\Price;
 use app\components\Translator;
+use app\models\PromotionCode;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
+
+$promo = PromotionCode::getRandomCode();
 
 $this->title = Translator::translate('Cart');
 $this->params['breadcrumbs'][] = $this->title;
@@ -24,6 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="container">
 
             <?php if (!empty($products)): ?>
+
+                <?php if (!isset($products['promo-code'])): ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                Use <strong><?= $promo->code ?></strong> code to get
+                                <strong><?= $promo->value ?>%</strong>
+                                Off Your Order
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <?php Pjax::begin(['id' => 'ptable']); ?>
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
@@ -67,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <td data-th="Subtotal" class="text-center">
                                 <?= Price::get($product['price'] * $product['quantity']) ?>
                             </td>
-                            <td class="actions">
+                            <td class="actions text-center">
                                 <?= Html::a('<i class="fa fa-refresh"></i>', ['cart/index'],
                                     ['class' => 'btn btn-info btn-sm', 'style' => 'display:none;']); ?>
 
@@ -88,12 +106,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     <tr>
                         <td>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="cupone code">
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-default">Use cupone</button>
-                                </div>
+
+                                <?php if (isset($products['promo-code'])): ?>
+                                    <div class="col-md-5 ref" style="margin-top: 10px;">
+                                        <p>
+                                            Code: <strong><?= $products['promo-code']['code'] ?>,
+                                                value <strong><?= $products['promo-code']['value'] ?>%</strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6" style="margin-top: 3px;">
+                                        <a href="<?= Url::to(['cart/remove-promo']) ?>" class="btn btn-default"
+                                           title="<?= Translator::translate('Remove') ?>"
+                                           data-confirm="<?= Translator::translate('Are you sure to delete this promo code?') ?>"
+                                           data-method="post">
+                                            Remove Code
+                                        </a>
+                                    </div>
+                                <?php else: ?>
+                                    <?= $this->render('_promo-form', [
+                                        'model' => $promoCode,
+                                    ]) ?>
+                                <?php endif; ?>
+
                             </div>
 
                         </td>
@@ -105,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td></td>
                     </tr>
                     <tr class="visible-xs">
-                        <td class="text-center"><strong>$1.99</strong></td>
+                        <td class="text-center"><strong><?= Price::get($products['total']) ?></strong></td>
                     </tr>
                     <tr>
                         <td>
@@ -114,7 +148,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             </a>
                         </td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong> <?= Price::get($products['total']) ?> </strong></td>
+                        <td class="hidden-xs text-center">
+
+                            <?php if (isset($products['total-promo'])): ?>
+                                <strike><strong> <?= Price::get($products['total']) ?> </strong></strike><br>
+                                <strong> <?= Price::get($products['total-promo']) ?> </strong>
+                            <?php else: ?>
+                                <strong> <?= Price::get($products['total']) ?> </strong>
+                            <?php endif; ?>
+
+                        </td>
                         <td>
                             <a href="#" class="btn btn-success btn-block">
                                 <?= Translator::translate('Checkout') ?> <i class="fa fa-angle-right"></i>
@@ -138,14 +181,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php $this->beginBlock('script') ?>
 <script>
 
-    $( document ).ready(function() {
+    $(document).ready(function () {
         $(".fa-refresh").first().trigger("click");
     });
 
-    //$(".fa-refresh").first().trigger("click");
-
     $(document).on('ready pjax:success', function () {
-
         $("input[type=number]").change(function () {
 
             var id = $(this).attr('data-id');
@@ -156,10 +196,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     $.pjax.reload({container: '#ptable'});
                 })
                 .fail(function () {
-                    //  alert("error");
+                    alert("We got error, we are sorry");
                 });
         });
 
+        $help = $('.help-block');
+        $promo = $('#promocodeform-code');
+
+        if (($promo.length && $promo.val().length) && !$help.text().length) {
+            $("#addPromo").trigger("click");
+            $("#addPromo").trigger("click");
+        }
     });
 
 </script>
