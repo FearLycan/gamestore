@@ -67,13 +67,6 @@ AppAsset::register($this);
         ],
     ]);
 
-    $itemsLeft[] = ['label' => Translator::translate('Games'), 'url' => ['/games']];
-
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left'],
-        'items' => $itemsLeft,
-    ]);
-
     echo "<div id='nav-form' class=\"col-sm-3 col-md-6\"><form data-pjax=\"1\" class=\"navbar-form\" method='get' action='" . \yii\helpers\Url::to(['/games']) . "'>
             <div class=\"form-group\">
               <input name=\"search\" id='nav-search' type=\"text\" placeholder='" . Translator::translate('Search') . "' class=\"form-control\">
@@ -122,7 +115,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
