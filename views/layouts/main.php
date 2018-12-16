@@ -86,7 +86,7 @@ AppAsset::register($this);
         $itemsRight[] = [
             'label' => Yii::$app->user->identity->name,
             'items' => [
-                ['label' => 'Profil', 'url' => '#'],
+                ['label' => Translator::translate('Order list'), 'url' => ['order/index']],
                 '<li class="divider"></li>',
                 '<li>'
                 . Html::beginForm(['/auth/logout'], 'post')

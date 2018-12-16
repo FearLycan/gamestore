@@ -9,6 +9,7 @@ use app\models\G2APay;
 use app\models\Game;
 use app\models\GameKey;
 use app\models\Order;
+use app\models\searches\OrderSearch;
 use app\models\User;
 use Yii;
 use yii\filters\VerbFilter;
@@ -25,9 +26,9 @@ class OrderController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'place-an-order' => ['POST'],
-                    'pay' => ['POST'],
-                    'create' => ['POST'],
-                    'get_key' => ['POST'],
+//                    'pay' => ['POST'],
+//                    'create' => ['POST'],
+//                    'get_key' => ['POST'],
                 ],
             ],
             'access' => [
@@ -43,6 +44,17 @@ class OrderController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionIndex()
+    {
+        $searchModel = new OrderSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionPlaceAnOrder()

@@ -204,8 +204,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $promo = $('#promocodeform-code');
 
         if (($promo.length && $promo.val().length) && !$help.text().length) {
-            $("#addPromo").trigger("click");
-            $("#addPromo").trigger("click");
+            $.pjax.reload({container: '#ptable'});
         }
     });
 
