@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\components\AccessControl;
 use app\components\Controller;
+use app\models\Cart;
 use app\models\G2APay;
 use app\models\Game;
 use app\models\GameKey;
@@ -44,35 +45,44 @@ class OrderController extends Controller
         ];
     }
 
-    /**
-     * @param $slug
-     * @return string
-     * @throws \yii\web\NotFoundHttpException
-     */
-    public function actionCreate($slug)
+    public function actionPlaceAnOrder()
     {
-        $game = $this->findModel($slug);
+        $cookies = Yii::$app->request->cookies;
+        $cart = json_decode($cookies->get('cart'), true);
+        $pCode = json_decode($cookies->get('promo'), true);
 
-        return $this->render('create', [
-            'game' => $game,
-        ]);
-    }
+        if (count($cart) == 0) {
+            $this->redirect(['cart/index']);
+        }
 
-    public function actionPlaceAnOrder($slug)
-    {
-        $game = $this->findModel($slug);
+        $ids = array_column($cart, 'id');
 
-        $order = Order::placeAnOrder($game->g2a_id, Yii::$app->user->id, $game->price);
+        $products = Cart::getProducts($ids, $cart, $pCode);
+
+        $order = Order::placeAnOrder($products);
 
         if (!$order) {
             //redircet to error page
         }
 
-        return $this->redirect(['view', 'hash' => $order->hash]);
+        return $this->redirect(['order/success', 'hash' => $order->hash]);
 
-//        return $this->render('place-an-order', [
-//            'order' => $order,
-//        ]);
+    }
+
+    public function actionSuccess($hash)
+    {
+        $order = Order::find()
+            ->where(['hash' => $hash])
+            ->andWhere(['buyer_id' => Yii::$app->user->id])
+            ->one();
+
+        if ($order !== null) {
+            return $this->render('success', [
+                'order' => $order,
+            ]);
+        }
+
+        $this->notFound('The requested page does not exist.');
     }
 
     public function actionView($hash)
@@ -89,61 +99,6 @@ class OrderController extends Controller
         }
 
         $this->notFound('The requested page does not exist.');
-    }
-
-    public function actionPay($hash)
-    {
-        $order = $this->findModelByHash($hash);
-
-        $payment = G2APay::makePayment($order->g2a_order_id);
-
-        if ($payment && $payment['status']) {
-            $order->g2a_transaction_id = $payment['transaction_id'];
-            $order->status = $payment['transaction_id'];
-            $order->save(false, ['transaction_id']);
-
-            $key = G2APay::getOrderKey($order->g2a_order_id);
-
-            if ($key && !isset($key['status'])) {
-                $game_key = new GameKey();
-                $game_key->key = $key['key'];
-                $game_key->order_id = $order->id;
-
-                if ($game_key->save()) {
-                    $order->status = Order::STATUS_COMPLATE;
-                    $order->save(false, ['status']);
-                    return $this->redirect(['view', 'hash' => $order->hash]);
-                }
-
-            } else {
-                $this->notFound('We have problem with this order. Please try again in a few minutes.');
-            }
-
-        } else {
-            $this->notFound('We have problem with this order. Please try again in a few minutes.');
-        }
-    }
-
-    public function actionGetKey($hash)
-    {
-        $order = $this->findModelByHash($hash);
-
-        $key = G2APay::getOrderKey($order->g2a_order_id);
-
-        if ($key && !isset($key['status'])) {
-            $game_key = new GameKey();
-            $game_key->key = $key['key'];
-            $game_key->order_id = $order->id;
-
-            if ($game_key->save()) {
-                $order->status = Order::STATUS_COMPLATE;
-                $order->save(false, ['status']);
-                return $this->redirect(['view', 'hash' => $order->hash]);
-            }
-
-        } else {
-            $this->notFound('We have problem with this order. Please try again in a few minutes.');
-        }
     }
 
     /**

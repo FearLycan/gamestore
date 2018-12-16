@@ -11,8 +11,9 @@ $this->title = 'Rejestracja';
             <div class="row">
                 <div class="col-md-8 ">
                     <div class="heading-3 strong-300 line-height-1_8">
-                        <span class="c-base-1 strong-500"><?= $model->name ?>!</span> Na Twóją pocztę został wysłany
-                        link aktywacyjny.
+                        <span class="c-base-1 strong-500"><?= $model->name ?>!</span> Twoje konto jest już aktywne.
+                        Możesz się
+                        <a href="<?= Url::to(['auth/login']) ?>">zalogować</a>.
                     </div>
                 </div>
             </div>

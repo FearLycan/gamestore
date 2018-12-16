@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php if (isset($products['promo-code'])): ?>
                                     <div class="col-md-5 ref" style="margin-top: 10px;">
                                         <p>
-                                            Code: <strong><?= $products['promo-code']['code'] ?>,
+                                            Code: <strong><?= $products['promo-code']['code'] ?></strong>,
                                                 value <strong><?= $products['promo-code']['value'] ?>%</strong>
                                         </p>
                                     </div>
@@ -159,8 +159,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </td>
                         <td>
-                            <a href="#" class="btn btn-success btn-block">
-                                <?= Translator::translate('Checkout') ?> <i class="fa fa-angle-right"></i>
+                            <a href="<?= Url::to(['cart/summary']) ?>" class="btn btn-success btn-block">
+                                <?= Translator::translate('Summary') ?> <i class="fa fa-angle-right"></i>
                             </a>
                         </td>
                     </tr>

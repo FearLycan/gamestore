@@ -65,7 +65,7 @@ class AuthController extends Controller
             Yii::$app->user->identity->last_login_at = date('Y-m-d H:i:s');
             Yii::$app->user->identity->save(false, ['last_login_at']);
 
-            return $this->goHome();
+            return $this->goBack(Yii::$app->request->referrer);
         }
 
         return $this->render('login', [
@@ -106,6 +106,7 @@ class AuthController extends Controller
             $model->password = User::hashPassword($model->password_first);
             $model->auth_key = User::generateUniqueRandomString();
             $model->verification_code = User::generateUniqueRandomString();
+            $model->status = User::STATUS_ACTIVE;
             $model->save();
             //$model->sendEmail();
             $status = true;

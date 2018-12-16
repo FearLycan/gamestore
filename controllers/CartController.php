@@ -2,10 +2,11 @@
 
 namespace app\controllers;
 
+use app\components\AccessControl;
 use app\components\Controller;
 use app\models\Cart;
 use app\models\forms\PromoCodeForm;
-use app\models\Game;
+use app\models\User;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Cookie;
@@ -15,6 +16,23 @@ class CartController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'statuses' => [
+                            User::STATUS_ACTIVE,
+                        ],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'remove-item', 'remove-promo', 'add-item', 'add-promo'],
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -129,5 +147,24 @@ class CartController extends Controller
         Yii::$app->response->cookies->add($cartCookie);
 
         $this->redirect(['cart/index']);
+    }
+
+    public function actionSummary()
+    {
+        $cookies = Yii::$app->request->cookies;
+        $cart = json_decode($cookies->get('cart'), true);
+        $pCode = json_decode($cookies->get('promo'), true);
+
+        if (count($cart) == 0) {
+            $this->redirect(['cart/index']);
+        }
+
+        $ids = array_column($cart, 'id');
+
+        $products = Cart::getProducts($ids, $cart, $pCode);
+
+        return $this->render('summary', [
+            'products' => $products,
+        ]);
     }
 }
