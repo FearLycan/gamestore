@@ -2,6 +2,7 @@
 
 namespace app\models\forms;
 
+use app\components\Translator;
 use app\models\User;
 use Yii;
 
@@ -18,7 +19,7 @@ class LoginForm extends User
     {
         return [
             [['email'], 'required'],
-            ['email', 'email', 'message' => 'Błędny adres e-mail.'],
+            ['email', 'email'],
             [['password'], 'required'],
             ['password', 'validatePasswordData']
         ];
@@ -51,11 +52,11 @@ class LoginForm extends User
             $user = $this->getUser();
 
             if ($user && $user->status == User::STATUS_INACTIVE) {
-                $this->addError($attribute, 'Konto nie zostało aktywowane');
+                $this->addError($attribute, Translator::translate('The account has not been activated'));
             }
 
             if (!$user || !Yii::$app->getSecurity()->validatePassword($this->password, $user->password)) {
-                $this->addError($attribute, 'Błędny adres e-mail lub hasło');
+                $this->addError($attribute, Translator::translate('Invalid email address or password'));
             }
         }
     }
@@ -68,8 +69,6 @@ class LoginForm extends User
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), 3600 * 24 * 30);
-
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
     }

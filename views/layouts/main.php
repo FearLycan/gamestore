@@ -91,7 +91,7 @@ AppAsset::register($this);
                 '<li>'
                 . Html::beginForm(['/auth/logout'], 'post')
                 . Html::submitButton(
-                    'Wyloguj się',
+                    Translator::translate('Log out'),
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

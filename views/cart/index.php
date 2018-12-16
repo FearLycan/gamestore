@@ -169,9 +169,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php Pjax::end() ?>
 
             <?php else: ?>
-                <p>Your cart is empty.</p>
+                <p><?= Translator::translate('Your cart is empty.') ?></p>
             <?php endif; ?>
-
 
         </div>
 
